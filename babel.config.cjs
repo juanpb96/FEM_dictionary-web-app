@@ -3,4 +3,12 @@ module.exports = {
     [ '@babel/preset-env', { targets: { esmodules: true } } ],
     [ '@babel/preset-react', { runtime: 'automatic' } ],
   ],
+  plugins: [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": false
+      }
+    ]
+  ]
 };
