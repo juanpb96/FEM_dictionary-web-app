@@ -15,6 +15,11 @@ const ListItem = styled.div<ListItemProps>`
     color: ${({theme}) => theme.colors.purpleFlower};
   }
 
+  &.selected {
+    outline: 2px solid ${({theme}) => theme.colors.purpleFlower};
+    outline-offset: 3px;
+  }
+
   ${props => {
     switch(props.$mode) {
       case Fonts.sansSerif:
@@ -70,6 +75,10 @@ const ListBox = styled.div`
   box-shadow: 0px 5px 30px ${({theme}) => theme.colors.boxShadow};
   background-color: ${({theme}) => theme.colors.background};
   animation: ${fadeInDown} 0.3s linear;
+
+  &.closed {
+    display: none;
+  }
 
   &.closing {
     animation: ${fadeInUp} 0.3s linear;

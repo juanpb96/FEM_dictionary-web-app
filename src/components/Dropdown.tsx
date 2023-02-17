@@ -2,6 +2,8 @@ import { ReactNode, useState, useContext, useEffect, useRef } from 'react';
 import * as S from './styles/StyledComponents';
 import { FontContext, FontContextType } from '../contexts/FontContext';
 import { useAnimationEnd } from '../hooks/useAnimationEnd';
+import { DEFAULT_CLOSING_CLASS } from '../types/types';
+import { useDropdown } from '../hooks/useDropdown';
 
 interface DropdownItemProps {
   font: string;
@@ -33,33 +35,56 @@ export const Dropdown = () => {
   const { changeFont } = useContext(FontContext) as FontContextType;
   const [selectedFont, setSelectedFont] = useState('Sans Serif');
   // FIXME: Active descendant should be assigned from context
-  const [activeDescendant, setActiveDescendant] = useState('font-dropdown-item-sans-serif');
+  const comboboxRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
-  const { isOpen, setIsOpen, setAnimatedComponent } = useAnimationEnd();
+  const {
+    activeDescendant,
+    isListboxOpen,
+    onListboxOpen,
+    onListboxClose,
+    selectedKeyboardItem,
+    setDropdownComponent,
+    onComboboxKeyDown,
+    onListItemClick
+  } = useDropdown();
+  const { setAnimatedComponent } = useAnimationEnd(onListboxClose);
 
   useEffect(() => {
-    if (isOpen) {
+    if (comboboxRef && comboboxRef.current && listboxRef && listboxRef.current) {
+      setDropdownComponent(comboboxRef.current!, listboxRef.current);
       setAnimatedComponent(listboxRef.current!);
     }
-  }, [isOpen])
+  }, []);
+
+  useEffect(() => {
+    if (selectedKeyboardItem !== '') {
+      setSelectedFont(selectedKeyboardItem);
+      changeFont(selectedKeyboardItem);
+      listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+    }
+  }, [selectedKeyboardItem])
   
 
   const onComboboxClick = () => {
-    if (isOpen) {
-      listboxRef.current?.classList.add('closing');
+    if (isListboxOpen) {
+      listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
     } else {
-      setIsOpen(true);
+      onListboxOpen();
     }
   };
 
-  const onListItemClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { textContent = '', id } = e.currentTarget;
+  const onDropdownItemClick = (e: React.MouseEvent<HTMLDivElement>) => {    
+    const { textContent = '' } = e.currentTarget;
     
+    onListItemClick(e);
     setSelectedFont(textContent!);
     changeFont(textContent!);
-    setActiveDescendant(id);
-    listboxRef.current?.classList.add('closing');
-  };  
+    listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+  };
+
+  const onDropdownBlur = () => {
+    listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+  }
 
   return (
     <>
@@ -68,15 +93,18 @@ export const Dropdown = () => {
       </label>
       <S.DropdownContainer>
         <S.ComboBox
-          aria-activedescendant={isOpen ? activeDescendant : ''}
+          aria-activedescendant={isListboxOpen ? activeDescendant : ''}
           aria-controls="font-listbox"
-          aria-expanded={isOpen}
+          aria-expanded={isListboxOpen}
           aria-labelledby="font-dropdown-label"
           aria-haspopup="listbox"
           data-testid="font-dropdown"
           role="combobox"
           tabIndex={0}
+          ref={comboboxRef}
           onClick={onComboboxClick}
+          onKeyDown={onComboboxKeyDown}
+          onBlur={onDropdownBlur}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,29 +119,26 @@ export const Dropdown = () => {
           {selectedFont}
         </S.ComboBox>
 
-        {
-          isOpen && (
-            <S.ListBox
-              id="font-listbox"
-              aria-labelledby="font-dropdown-label"
-              role="listbox"
-              tabIndex={-1}
-              ref={listboxRef}
-            >
-              {/* TODO: Take list items from font context */}
-              {
-                ['Sans Serif', 'Serif', 'Mono'].map(font => (
-                  <DropdownItem
-                    key={font}
-                    font={font}
-                    isSelected={font === 'Sans Serif'}
-                    onClick={onListItemClick}
-                  />
-                ))
-              }
-            </S.ListBox>
-          )
-        }
+        <S.ListBox
+          id="font-listbox"
+          aria-labelledby="font-dropdown-label"
+          role="listbox"
+          tabIndex={-1}
+          ref={listboxRef}
+          className={isListboxOpen ? '' : 'closed'}
+        >
+          {/* TODO: Take list items from font context */}
+          {
+            ['Sans Serif', 'Serif', 'Mono'].map(font => (
+              <DropdownItem
+                key={font}
+                font={font}
+                isSelected={font === selectedFont}
+                onClick={onDropdownItemClick}
+              />
+            ))
+          }
+        </S.ListBox>
       </S.DropdownContainer>
     </>
   )

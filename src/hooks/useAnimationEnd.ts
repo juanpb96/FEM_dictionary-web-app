@@ -1,35 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
 import { DEFAULT_CLOSING_CLASS } from '../types/types';
 
-export const useAnimationEnd = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const useAnimationEnd = (onComponentHide: () => void) => {
   const [isComponentSet, setIsComponentSet] = useState(false);
-  const itemRef = useRef<HTMLElement>();
+  const elementRef = useRef<HTMLElement>();
 
   const setAnimatedComponent = (component: HTMLElement) => {    
-    itemRef.current = component;
+    elementRef.current = component;
     setIsComponentSet(true);
   };
 
   useEffect(() => {
     const removeClass = () => {
-      if (itemRef.current?.classList.contains(DEFAULT_CLOSING_CLASS)) {
-        itemRef.current.classList.remove(DEFAULT_CLOSING_CLASS);
-        setIsOpen(false);
+      if (elementRef.current?.classList.contains(DEFAULT_CLOSING_CLASS)) {
+        elementRef.current.classList.remove(DEFAULT_CLOSING_CLASS);
         setIsComponentSet(false);
+        onComponentHide();
       }
     };
 
-    itemRef.current?.addEventListener('animationend', removeClass);
-    
+    if (elementRef && elementRef.current) {
+      elementRef.current.addEventListener('animationend', removeClass);      
+    }
+
     return () => {
-      itemRef.current?.removeEventListener('animationend', removeClass);
+      elementRef.current?.removeEventListener('animationend', removeClass);
     }
   }, [isComponentSet]);
 
   return {
-    isOpen,
-    setIsOpen,
     setAnimatedComponent
   }
 }
