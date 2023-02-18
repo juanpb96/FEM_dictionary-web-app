@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { DEFAULT_CLOSING_CLASS } from '../types/types';
+import { DROPDOWN_CLASS } from '../types/types';
 
 export const useAnimationEnd = (onComponentHide: () => void) => {
   const [isComponentSet, setIsComponentSet] = useState(false);
@@ -12,8 +12,8 @@ export const useAnimationEnd = (onComponentHide: () => void) => {
 
   useEffect(() => {
     const removeClass = () => {
-      if (elementRef.current?.classList.contains(DEFAULT_CLOSING_CLASS)) {
-        elementRef.current.classList.remove(DEFAULT_CLOSING_CLASS);
+      if (elementRef.current?.classList.contains(DROPDOWN_CLASS.closing)) {
+        elementRef.current.classList.remove(DROPDOWN_CLASS.closing);
         setIsComponentSet(false);
         onComponentHide();
       }
