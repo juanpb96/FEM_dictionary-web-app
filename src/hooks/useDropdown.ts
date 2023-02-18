@@ -1,6 +1,5 @@
 import React from 'react'
-import { useEffect, useRef, useState } from 'react';
-import { DEFAULT_CLOSING_CLASS } from '../types/types';
+import { useRef, useState } from 'react';
 
 const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
 const navigationKeys = ['ArrowDown', 'ArrowUp'];
@@ -29,10 +28,7 @@ export const useDropdown = () => {
     listItemsRef.current = [].slice.call(listboxRef.current?.children);    
   };
 
-  const onComboboxKeyDown = (e: React.KeyboardEvent) => {
-    console.log('KeyDown:', e.key);
-    
-    // When user press ArrowDown key, it should open the listbox and focus the first item or active descendant
+  const onComboboxKeyDown = (e: React.KeyboardEvent) => {    
     if (!isListboxOpen && openKeys.includes(e.key)) {
       setIsListboxOpen(true);
 
@@ -48,7 +44,6 @@ export const useDropdown = () => {
     }
 
     if (isListboxOpen && navigationKeys.includes(e.key)) {
-      // TODO: Add keyboard navigation inside dropdown
       let newIndex = 0;
 
       if (e.key === 'ArrowUp') {
