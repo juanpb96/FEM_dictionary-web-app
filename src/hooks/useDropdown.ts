@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRef, useState } from 'react';
+import { DROPDOWN_CLASS } from '../types/types';
 
 const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
 const navigationKeys = ['ArrowDown', 'ArrowUp'];
@@ -37,7 +38,7 @@ export const useDropdown = () => {
         return element.getAttribute('aria-selected') === 'true';
       }) || listboxRef.current?.children[0];            
 
-      (selectedListItem as HTMLElement).classList.add('selected');
+      (selectedListItem as HTMLElement).classList.add(DROPDOWN_CLASS.selected);
       (selectedListItem as HTMLElement).focus();        
 
       return;
@@ -53,8 +54,8 @@ export const useDropdown = () => {
       }      
       
       if (newIndex >= 0 && newIndex < listItemsRef.current.length) {
-        (listItemsRef.current[currentActiveItemIndexRef.current] as HTMLElement).classList.remove('selected');
-        (listItemsRef.current[newIndex] as HTMLElement).classList.add('selected');
+        (listItemsRef.current[currentActiveItemIndexRef.current] as HTMLElement).classList.remove(DROPDOWN_CLASS.selected);
+        (listItemsRef.current[newIndex] as HTMLElement).classList.add(DROPDOWN_CLASS.selected);
         currentActiveItemIndexRef.current = newIndex;
       }
     }
@@ -62,7 +63,7 @@ export const useDropdown = () => {
     if (isListboxOpen && exitKeys.includes(e.key)) {
       const { id, textContent = '' } = listItemsRef.current[currentActiveItemIndexRef.current];
 
-      (listItemsRef.current[currentActiveItemIndexRef.current] as HTMLElement).classList.remove('selected');
+      (listItemsRef.current[currentActiveItemIndexRef.current] as HTMLElement).classList.remove(DROPDOWN_CLASS.selected);
       setActiveDescendant(id);
       setSelectedKeyboardItem(textContent!);
     }

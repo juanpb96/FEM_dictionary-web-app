@@ -1,5 +1,5 @@
 import { composeStories } from '@storybook/react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as stories from '../stories/Dropdown.stories';
 
 const { FontList } = composeStories(stories);
@@ -16,15 +16,10 @@ describe('Test <Dropdown />', () => {
 
     expect(combobox).toBeTruthy();
     expect(combobox.textContent).toBe('Sans Serif');
-
-    // FIXME: Listbox is hidden until user opens it
-    const listbox = screen.getByRole('listbox');
-
-    expect(listbox).toBeTruthy();
-    expect(listbox.children).toHaveLength(3);
+    expect(combobox.nextElementSibling?.getAttribute('role')).toBe('listbox');    
   });
 
-  test.only('should open the dropdown, change default font to "Serif" and close the dropdown', () => {
+  test('should open the dropdown, change default font to "Serif" and close the dropdown', async() => {
     const currentValue = 'Sans Serif';
     const expectedValue = 'Serif';
     
@@ -37,8 +32,7 @@ describe('Test <Dropdown />', () => {
 
     fireEvent.click(combobox);
     
-    screen.debug();
-    expect(combobox.getAttribute('aria-expanded')).toBe('true');
+    expect(combobox.getAttribute('aria-expanded')).toBe('true');    
 
     const listbox = screen.getByRole('listbox');
     
@@ -49,7 +43,47 @@ describe('Test <Dropdown />', () => {
     fireEvent.click(listboxItem);
 
     expect(combobox.textContent).toBe(expectedValue);
-    expect(combobox.getAttribute('aria-expanded')).toBe('false');
+
+    // It is necessary to wait for animation end before checking if attribute has changed
+    waitFor(() => expect(combobox.getAttribute('aria-expanded')).toBe('false'));
+  });
+
+  test('should confirm the item as selected and its id as active-descendant', () => {
+    render(<FontList />);
+
+    const combobox = screen.getByRole('combobox');
+
+    expect(combobox.getAttribute('aria-activedescendant')).toBe('');
+    
+    fireEvent.click(combobox);
+
+    expect(combobox.getAttribute('aria-activedescendant')).toBe('font-dropdown-item-sans-serif');
+
+    const listboxItem = screen.getByTestId('font-dropdown-item-sans-serif');
+
+    expect(listboxItem.getAttribute('aria-selected')).toBe('true');
+  });
+
+  test('should validate navigation with keyboard, select Mono and check if combobox is not expanded', () => {
+    render(<FontList />);
+
+    const combobox = screen.getByRole('combobox');
+
+    // https://www.toptal.com/developers/keycode
+    fireEvent.keyDown(combobox, {key: 'Enter', code: 'Enter', charCode: 13});
+
+    expect(combobox.getAttribute('aria-expanded')).toBe('true');
+
+    const listbox = screen.getByRole('listbox');
+    
+    expect(listbox).toBeTruthy();
+
+    fireEvent.keyDown(combobox, {key: 'ArrowDown', code: 'ArrowDown', charCode: 40});
+    fireEvent.keyDown(combobox, {key: 'ArrowDown', code: 'ArrowDown', charCode: 40});
+    fireEvent.keyDown(combobox, {key: ' ', code: 'Space', charCode: 32});
+
+    expect(combobox.textContent).toBe('Mono');
+    waitFor(() => expect(combobox.getAttribute('aria-expanded')).toBe('false'));
   });
 });
 

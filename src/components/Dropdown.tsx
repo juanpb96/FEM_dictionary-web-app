@@ -2,7 +2,7 @@ import { ReactNode, useState, useContext, useEffect, useRef } from 'react';
 import * as S from './styles/StyledComponents';
 import { FontContext, FontContextType } from '../contexts/FontContext';
 import { useAnimationEnd } from '../hooks/useAnimationEnd';
-import { DEFAULT_CLOSING_CLASS } from '../types/types';
+import { DROPDOWN_CLASS } from '../types/types';
 import { useDropdown } from '../hooks/useDropdown';
 
 interface DropdownItemProps {
@@ -15,7 +15,6 @@ interface DropdownItemProps {
 const DropdownItem = ({ font, isSelected, onClick }: DropdownItemProps) => {
   const id = `font-dropdown-item-${font.split(' ').join('-').toLowerCase()}`;
 
-  // TODO: Set aria selected depending on the active font
   return (
     <S.ListItem
       aria-selected={isSelected}
@@ -60,14 +59,14 @@ export const Dropdown = () => {
     if (selectedKeyboardItem !== '') {
       setSelectedFont(selectedKeyboardItem);
       changeFont(selectedKeyboardItem);
-      listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+      listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
     }
   }, [selectedKeyboardItem])
   
 
   const onComboboxClick = () => {
     if (isListboxOpen) {
-      listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+      listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
     } else {
       onListboxOpen();
     }
@@ -79,11 +78,11 @@ export const Dropdown = () => {
     onListItemClick(e);
     setSelectedFont(textContent!);
     changeFont(textContent!);
-    listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+    listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
   };
 
   const onDropdownBlur = () => {
-    listboxRef.current?.classList.add(DEFAULT_CLOSING_CLASS);
+    listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
   }
 
   return (
@@ -125,7 +124,7 @@ export const Dropdown = () => {
           role="listbox"
           tabIndex={-1}
           ref={listboxRef}
-          className={isListboxOpen ? '' : 'closed'}
+          className={isListboxOpen ? '' : DROPDOWN_CLASS.closed}
         >
           {/* TODO: Take list items from font context */}
           {
