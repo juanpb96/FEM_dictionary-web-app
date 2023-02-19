@@ -1,5 +1,5 @@
 import { ReactNode, useState, useContext, useEffect, useRef } from 'react';
-import * as S from './styles/StyledComponents';
+import * as S from './styles/Dropdown.styled';
 import { FontContext, FontContextType } from '../contexts/FontContext';
 import { useAnimationEnd } from '../hooks/useAnimationEnd';
 import { DROPDOWN_CLASS } from '../types/types';
