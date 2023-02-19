@@ -1,0 +1,5 @@
+describe('Test <SearchInput />', () => { 
+
+});
+
+export {};
