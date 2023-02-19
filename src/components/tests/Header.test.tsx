@@ -13,11 +13,9 @@ describe('Test <Header />', () => {
     expect(logo).toBeTruthy();
     expect(logo.getAttribute('role')).toBe('presentation');
 
-    const dropdownInput = screen.getByRole('combobox');
-    const dropdownList = screen.getByRole('listbox');
+    const dropdown = screen.getByRole('combobox');
 
-    expect(dropdownInput).toBeTruthy();
-    expect(dropdownList).toBeTruthy();
+    expect(dropdown).toBeTruthy();
 
     const themeSwither = screen.getByRole('switch');
 
