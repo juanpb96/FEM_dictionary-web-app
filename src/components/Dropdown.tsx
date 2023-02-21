@@ -73,7 +73,7 @@ export const Dropdown = () => {
   };
 
   const onDropdownItemClick = (e: React.MouseEvent<HTMLDivElement>) => {    
-    const { textContent = '' } = e.currentTarget;
+    const { textContent = '' } = e.currentTarget;    
     
     onListItemClick(e);
     setSelectedFont(textContent!);
@@ -81,8 +81,10 @@ export const Dropdown = () => {
     listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
   };
 
-  const onDropdownBlur = () => {
-    listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
+  const onDropdownBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if ((e.relatedTarget as HTMLElement).id !== 'font-listbox') {
+      listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
+    }    
   }
 
   return (

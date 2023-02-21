@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
+import { mediaQuery } from '../../mediaQueries.styled';
 import { Fonts } from '../../types/types';
 
 interface ListItemProps {
@@ -7,8 +8,11 @@ interface ListItemProps {
 
 const ListItem = styled.div<ListItemProps>`
   cursor: pointer;
-  color: ${({theme}) => theme.colors.heavyMetal};
-  font: 700 1.125rem/1.5rem 'Inter';
+  color: ${({theme}) => theme.colors.text};
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  font-family: inherit;
   transition: color 0.2s ease-in-out;
 
   &:is(:hover, :focus) {
@@ -19,6 +23,10 @@ const ListItem = styled.div<ListItemProps>`
     outline: 2px solid ${({theme}) => theme.colors.purpleFlower};
     outline-offset: 3px;
   }
+
+  ${mediaQuery('sm', css`
+    font-size: 1.125rem;
+  `)}
 
   ${props => {
     switch(props.$mode) {
@@ -62,7 +70,7 @@ const fadeInUp = keyframes`
   }
 `;
 
-const ListBox = styled.div`
+const ListBox = styled.div(({theme}) => css`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -72,9 +80,10 @@ const ListBox = styled.div`
   top: calc(100% + 10.5px);
   right: 0;
   border-radius: 1rem;
-  box-shadow: 0px 5px 30px ${({theme}) => theme.colors.boxShadow};
-  background-color: ${({theme}) => theme.colors.background};
+  box-shadow: 0px 5px 30px ${theme.colors.boxShadow};
+  background-color: ${theme.colors.backgroundPrimary};
   animation: ${fadeInDown} 0.3s linear;
+  transition: background-color 150ms ease-in-out;
 
   &.closed {
     display: none;
@@ -83,7 +92,11 @@ const ListBox = styled.div`
   &.closing {
     animation: ${fadeInUp} 0.3s linear;
   }
-`;
+
+  ${mediaQuery('md', css`
+    top: calc(100% + 18px);
+  `)}
+`);
 
 // TODO: Add mobile style (font)
 const ComboBox = styled.div`
@@ -92,6 +105,13 @@ const ComboBox = styled.div`
   flex-direction: row-reverse;
   place-items: center;
   gap: 1.125rem;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+
+  ${mediaQuery('sm', css`
+    font-size: 1.125rem;
+  `)}
 `;
 
 const DropdownContainer = styled.div`

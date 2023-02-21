@@ -15,7 +15,7 @@ export const darkTheme: DefaultTheme = {
     purpleFlower: '#A445ED',
     error: '#FF5252',
     text: '#FFFFFF',
-    boxShadow: 'rgba(0, 0, 0, 0.1)',
+    boxShadow: 'rgba(164, 69, 237, 1)',
     backgroundPrimary: '#050505',
     backgroundSecondary: '#1F1F1F'
   },
