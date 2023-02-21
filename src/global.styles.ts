@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 import InterRegularTTF from './assets/fonts/inter/static/Inter-Regular.ttf';
 import InterBoldTTF from './assets/fonts/inter/static/Inter-Bold.ttf';
 import InconsolataRegularTTF from './assets/fonts/inconsolata/static/Inconsolata-Regular.ttf';
@@ -6,8 +6,13 @@ import InconsolataBoldTTF from './assets/fonts/inconsolata/static/Inconsolata-Bo
 import LoraRegularTTF from './assets/fonts/lora/static/Lora-Regular.ttf';
 import LoraBoldTTF from './assets/fonts/lora/static/Lora-Bold.ttf';
 import LoraBoldItalicTTF from './assets/fonts/lora/static/Lora-BoldItalic.ttf';
+import { Fonts } from './types/types';
 
-export const GlobalStyle = createGlobalStyle`
+interface DefaultTheme {
+  $font: string;
+}
+
+export const GlobalStyle = createGlobalStyle<DefaultTheme>`
   @font-face {
     font-family: 'Inter';
     src: url(${InterRegularTTF}) format('truetype');
@@ -117,5 +122,38 @@ export const GlobalStyle = createGlobalStyle`
   */
   #root, #__next {
     isolation: isolate;
+  }
+
+  body {
+    ${props => {
+      switch(props.$font) {
+        case Fonts.sansSerif:
+          return css`
+            font-family: ${({theme}) => theme.fontFamily.Inter};
+          `
+        case Fonts.serif:
+          return css`
+            font-family: ${({theme}) => theme.fontFamily.Lora};
+          `
+        case Fonts.mono:
+          return css`
+            font-family: ${({theme}) => theme.fontFamily.Inconsolata};
+          `
+      }
+    }}
+
+    color: ${({theme}) => theme.colors.text};
+  }
+
+  .sr-only {
+    display: inline-block;
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
   }
 `;
