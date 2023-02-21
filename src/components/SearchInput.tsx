@@ -1,20 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { FontContext, FontContextType } from '../contexts/FontContext';
 import * as S from './styles/SearchInput.styled';
 
 export const SearchInput = () => {
+  const { currentFont } = useContext(FontContext) as FontContextType;
   const [inputValue, setInputValue] = useState('');
   const [hasError, setHasError] = useState(false);
-  const [hasFocus, setHasFocus] = useState(false);
+  const [hasFocus, setHasFocus] = useState(false);  
 
   const onInputContainerFocus = (e: React.FocusEvent<HTMLDivElement>) => {
     (e.currentTarget.firstChild as HTMLElement).focus();
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value);    
 
-    if (inputValue !== '' && hasError) {
+    if (e.target.value !== '' && hasError) {
       setHasError(false);
+      setHasFocus(true);
     }
   };
 
@@ -32,13 +35,14 @@ export const SearchInput = () => {
 
     if (inputValue === '') {
       setHasError(true);
+      setHasFocus(false);
 
       return;
     }
   };
 
   return (
-    <form role="search" onSubmit={onSubmit}>
+    <S.Form role="search" onSubmit={onSubmit}>
       <label
         className="sr-only"
         htmlFor="search-input"
@@ -51,6 +55,7 @@ export const SearchInput = () => {
         onFocus={onInputContainerFocus}
         $hasError={hasError}
         $hasFocus={hasFocus}
+        $font={currentFont}
         tabIndex={0}
       >
         <input
@@ -88,6 +93,6 @@ export const SearchInput = () => {
           </S.ErrorMessage>
         )
       }
-    </form>
+    </S.Form>
   )
 };
