@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 import { DefaultStyles } from './default';
 
-export const lightTheme: DefaultTheme = {
+export const darkTheme: DefaultTheme = {
   ...DefaultStyles,
   colors: {
     night: '#050505',
@@ -14,9 +14,9 @@ export const lightTheme: DefaultTheme = {
     white: '#FFFFFF',
     purpleFlower: '#A445ED',
     error: '#FF5252',
-    text: '#2D2D2D',
+    text: '#FFFFFF',
     boxShadow: 'rgba(0, 0, 0, 0.1)',
-    backgroundPrimary: '#FFFFFF',
-    backgroundSecondary: '#F4F4F4'
+    backgroundPrimary: '#050505',
+    backgroundSecondary: '#1F1F1F'
   },
 };

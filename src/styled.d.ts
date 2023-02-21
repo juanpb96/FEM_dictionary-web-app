@@ -14,15 +14,27 @@ declare module 'styled-components' {
       whiteSmoke: string;
       white: string;
       purpleFlower: string;
-      orangeSunset: string;
+      error: string;
+      text: string;
       boxShadow: string;
-      background: string;
+      backgroundPrimary: string;
+      backgroundSecondary: string;
     };
-
     fontFamily: {
       Inconsolata: string;
       Inter: string;
       Lora: string;
     };
+    width: {
+      mobile: string;
+      tablet: string;
+      desktop: string;
+    };
+    screen: {
+      sm: string;
+      md: string;
+      lg: string;
+      xl: string;
+    }
   }
 }
