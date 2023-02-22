@@ -1,12 +1,17 @@
 import { composeStories } from '@storybook/react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { FontContext, ThemeContextProvider } from '../../contexts';
 import * as stories from '../stories/Dropdown.stories';
 
 const { FontList } = composeStories(stories);
 
 describe('Test <Dropdown />', () => {
   test('should render properly', () => {
-    render(<FontList />);
+    render(
+      <ThemeContextProvider>
+        <FontList />
+      </ThemeContextProvider>
+    );
 
     const label = screen.getByTestId('font-dropdown-label');
 
@@ -22,8 +27,15 @@ describe('Test <Dropdown />', () => {
   test('should open the dropdown, change default font to "Serif" and close the dropdown', async() => {
     const currentValue = 'Sans Serif';
     const expectedValue = 'Serif';
-    
-    render(<FontList />);
+    const changeFont = jest.fn();
+
+    render(
+      <ThemeContextProvider>
+        <FontContext.Provider value={{ changeFont }}>
+          <FontList />
+        </FontContext.Provider>
+      </ThemeContextProvider>
+    );
 
     const combobox = screen.getByRole('combobox');
     
@@ -49,7 +61,11 @@ describe('Test <Dropdown />', () => {
   });
 
   test('should confirm the item as selected and its id as active-descendant', () => {
-    render(<FontList />);
+    render(
+      <ThemeContextProvider>
+        <FontList />
+      </ThemeContextProvider>
+    );
 
     const combobox = screen.getByRole('combobox');
 
@@ -65,7 +81,15 @@ describe('Test <Dropdown />', () => {
   });
 
   test('should validate navigation with keyboard, select Mono and check if combobox is not expanded', () => {
-    render(<FontList />);
+    const changeFont = jest.fn();
+
+    render(
+      <ThemeContextProvider>
+        <FontContext.Provider value={{ changeFont }}>
+          <FontList />
+        </FontContext.Provider>
+      </ThemeContextProvider>
+    );
 
     const combobox = screen.getByRole('combobox');
 

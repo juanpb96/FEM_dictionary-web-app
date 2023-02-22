@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
 import * as stories from '../stories/Header.stories';
+import { ThemeContextProvider } from '../../contexts';
 
-const { LightMode } = composeStories(stories);
+const { LightTheme } = composeStories(stories);
 
 describe('Test <Header />', () => {
   test('should render properly', () => {
-    render(<LightMode />);
+    render(
+      <ThemeContextProvider>
+        <LightTheme />
+      </ThemeContextProvider>
+    );
 
     const logo = screen.getByTestId('logo-img');
 
