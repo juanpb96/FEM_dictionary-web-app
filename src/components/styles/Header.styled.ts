@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { mediaQuery } from '../../mediaQueries.styled';
 
 const VerticalLine = styled.span`
   display: inline-block;
@@ -12,13 +13,23 @@ const Controls = styled.div`
   place-items: center;
   gap: 1rem;
   margin-left: auto;
+
+  ${mediaQuery('sm', css`
+    gap: 1.625rem;
+  `)}
 `;
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header(({theme}) => css`
   display: flex;
-  width: ${({theme}) => theme.width.mobile};
+  width: ${theme.width.mobile};
+  max-width: ${theme.width.desktop};
   margin: 1.5rem auto;
-`;
+
+  ${mediaQuery('sm', css`
+    width: ${theme.width.tablet};
+    margin-block: 3.625rem 3.2188rem;
+  `)}
+`);
 
 export {
   VerticalLine,
