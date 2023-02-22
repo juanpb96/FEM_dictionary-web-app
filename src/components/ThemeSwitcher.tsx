@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import * as S from './styles/ThemeSwitcher.styled';
+import { ThemeContext, ThemeContextType } from '../contexts';
 
 
 // TODO: Continue with https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/
 export const ThemeSwitcher = () => {
-  const [isDarkThemeEnabled, setIsDarkThemeEnabled] = useState(false);
+  const {isDarkThemeEnabled, setIsDarkThemeEnabled} = useContext(ThemeContext) as ThemeContextType;
 
   const onClick = () => {
     setIsDarkThemeEnabled(!isDarkThemeEnabled);

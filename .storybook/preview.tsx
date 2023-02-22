@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { DecoratorFn } from '@storybook/react';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import styled, { css, ThemeProvider } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { GlobalStyle } from '../src/global.styles';
-import { darkTheme, lightTheme } from '../src/themes';
 import { FontContext } from '../src/contexts/FontContext';
-import { useState } from 'react';
 import { Fonts } from '../src/types/types';
+import { ThemeContext, ThemeContextType, ThemeContextProvider } from '../src/contexts';
+import { useEffect } from 'react';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -29,24 +29,35 @@ const ThemeBlock = styled.div(({theme}) => css`
   transition: background-color 150ms ease-in-out;
 `);
 
-const withTheme: DecoratorFn = (StoryFn, context) => {
-  const [currentFont, setCurrentFont] = useState(Fonts.sansSerif);
+// This is necessary to avoid collitions of context inside of withTheme decorator
+const ToolbarThemeSwitch = ({context}) => {
+  const { setIsDarkThemeEnabled } = useContext(ThemeContext) as ThemeContextType;
   const theme = context.parameters.theme || context.globals.theme;
-  const storyTheme = theme === 'dark' ? darkTheme : lightTheme;
+  
+  useEffect(() => {
+    setIsDarkThemeEnabled(theme === 'dark');
+  }, [theme]);
+
+  return <></>;
+};
+
+const withTheme: DecoratorFn = (StoryFn, context) => {
+  const [currentFont, setCurrentFont] = useState(Fonts.sansSerif);  
 
   const changeFont = (newFont: string) => {
     setCurrentFont(newFont);
-  }
+  };
 
   return (
-    <ThemeProvider theme={storyTheme}>
+    <ThemeContextProvider>
       <FontContext.Provider value={{currentFont, changeFont}}>
         <ThemeBlock>
           <GlobalStyle $font={currentFont} />
+          <ToolbarThemeSwitch context={context} />
           <StoryFn />
         </ThemeBlock>
       </FontContext.Provider>
-    </ThemeProvider>
+    </ThemeContextProvider>
   );
 };
 

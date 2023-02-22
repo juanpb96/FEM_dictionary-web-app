@@ -1,14 +1,19 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { decorators } from '../../stories/StylesDecorator';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 
 export default {
   title: 'Components/ThemeSwitcher',
   component: ThemeSwitcher,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
-  decorators
+  decorators: [
+    (Story) => (
+      <div style={{ width: 'fit-content', margin: 'auto' }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as ComponentMeta<typeof ThemeSwitcher>;
 
 const Template: ComponentStory<typeof ThemeSwitcher> = () => <ThemeSwitcher />;
