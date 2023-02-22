@@ -1,12 +1,21 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
 import * as Stories from '../stories/NoFound.stories';
+import { ThemeContextProvider } from '../../contexts';
 
 const { NoDefinitionFound } = composeStories(Stories);
 
 describe('Test <NoFoundView />', () => {
   test('should render properly', () => { 
-    render(<NoDefinitionFound />);
+    render(
+      <ThemeContextProvider>
+        <NoDefinitionFound />
+      </ThemeContextProvider>
+    );    
+
+    expect(screen.getByRole('img')).toBeTruthy();
+    expect(screen.getByText('No Definitions Found')).toBeTruthy();
+    expect(screen.getByText('Sorry pal, we couldn\'t find definitions for the word you were looking for. You can try the search again at later time or head to the web instead.')).toBeTruthy();
   });
 });
 
