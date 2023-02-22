@@ -142,7 +142,10 @@ export const GlobalStyle = createGlobalStyle<DefaultTheme>`
       }
     }}
 
+    background-color: ${({theme}) => theme.colors.backgroundPrimary};
     color: ${({theme}) => theme.colors.text};
+    transition: background-color 150ms ease-in-out,
+                color 150ms ease-in-out;
   }
 
   .sr-only {

@@ -29,7 +29,8 @@ const TextField = styled.div<TextFieldProps>(({theme, $hasFocus, $hasError, $fon
     : $hasError
       ? theme.colors.error
       : theme.colors.backgroundSecondary};
-  transition: background-color 150ms ease-in-out;
+  transition: background-color 150ms ease-in-out,
+              border-color 150ms ease-in-out;
 
   ${mediaQuery('sm', css`
     max-height: 4rem;
