@@ -8,9 +8,9 @@ export const SearchInput = () => {
   const [hasError, setHasError] = useState(false);
   const [hasFocus, setHasFocus] = useState(false);  
 
-  const onInputContainerFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+  const onInputContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     (e.currentTarget.firstChild as HTMLElement).focus();
-  }
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);    
@@ -52,11 +52,10 @@ export const SearchInput = () => {
       </label>
 
       <S.TextField
-        onFocus={onInputContainerFocus}
+        onClick={onInputContainerClick}
         $hasError={hasError}
         $hasFocus={hasFocus}
         $font={currentFont}
-        tabIndex={0}
       >
         <input
           id="search-input"
