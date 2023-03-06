@@ -8,7 +8,7 @@ const exitKeys = ['Esc', 'Escape', 'Enter', ' ']
 
 export const useDropdown = () => {
   const [isListboxOpen, setIsListboxOpen] = useState(false);
-  const [selectedKeyboardItem, setSelectedKeyboardItem] = useState('');
+  const [selectedKeyboardItem, setSelectedKeyboardItem] = useState({ itemId: '', content: '' });
   const [activeDescendant, setActiveDescendant] = useState('font-dropdown-item-sans-serif');
   const comboboxRef = useRef<HTMLElement>();
   const listboxRef = useRef<HTMLElement>();
@@ -65,7 +65,10 @@ export const useDropdown = () => {
 
       (listItemsRef.current[currentActiveItemIndexRef.current] as HTMLElement).classList.remove(DROPDOWN_CLASS.selected);
       setActiveDescendant(id);
-      setSelectedKeyboardItem(textContent!);
+      setSelectedKeyboardItem({
+        itemId: id,
+        content: textContent!  
+      });
     }
   };
 
