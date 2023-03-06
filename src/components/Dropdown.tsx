@@ -1,38 +1,24 @@
-import { ReactNode, useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import * as S from './styles/Dropdown.styled';
 import { FontContext, FontContextType } from '../contexts/FontContext';
 import { useAnimationEnd } from '../hooks/useAnimationEnd';
-import { DROPDOWN_CLASS } from '../types/types';
+import { DROPDOWN_CLASS, KeyOfFont } from '../types';
 import { useDropdown } from '../hooks/useDropdown';
+import { DropdownItem } from './DropdownItem';
+import { Typography } from './Typography';
 
-interface DropdownItemProps {
-  font: string;
-  isSelected: boolean;
-  onClick: (e : React.MouseEvent<HTMLDivElement>) => void;
-  children?: ReactNode;
+interface SelectedFontValues {
+  fontId: KeyOfFont;
+  displayName: string;
 }
-
-const DropdownItem = ({ font, isSelected, onClick }: DropdownItemProps) => {
-  const id = `font-dropdown-item-${font.split(' ').join('-').toLowerCase()}`;
-
-  return (
-    <S.ListItem
-      aria-selected={isSelected}
-      role="option"
-      id={id}
-      data-testid={id}
-      onClick={onClick}
-      $mode={font}
-    >
-      {font}
-    </S.ListItem>
-  );
-};
 
 // TODO: Set a global font in a context and save it to localStorage
 export const Dropdown = () => {
-  const { changeFont } = useContext(FontContext) as FontContextType;
-  const [selectedFont, setSelectedFont] = useState('Sans Serif');
+  const { setCurrentFont, fontList } = useContext(FontContext) as FontContextType;
+  const [selectedFont, setSelectedFont] = useState<SelectedFontValues>({
+    fontId: 'sansSerif',
+    displayName: 'Sans Serif'
+  });
   // FIXME: Active descendant should be assigned from context
   const comboboxRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
@@ -56,9 +42,16 @@ export const Dropdown = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedKeyboardItem !== '') {
-      setSelectedFont(selectedKeyboardItem);
-      changeFont(selectedKeyboardItem);
+    const { itemId, content } = selectedKeyboardItem;
+
+    if ([itemId, content].every(el => el !== '')) {
+      const newId = itemId.split('font-dropdown-item-')[1] as KeyOfFont;
+
+      setSelectedFont({
+        fontId: newId,
+        displayName: content
+      });
+      setCurrentFont(newId);
       listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
     }
   }, [selectedKeyboardItem])
@@ -72,12 +65,16 @@ export const Dropdown = () => {
     }
   };
 
-  const onDropdownItemClick = (e: React.MouseEvent<HTMLDivElement>) => {    
-    const { textContent = '' } = e.currentTarget;    
+  const onDropdownItemClick = (e: React.MouseEvent<HTMLDivElement>, fontId: KeyOfFont) => {    
+    const { id, textContent = '' } = e.currentTarget;    
+    const selectedId = id.split('font-dropdown-item-')[1] as KeyOfFont;
     
     onListItemClick(e);
-    setSelectedFont(textContent!);
-    changeFont(textContent!);
+    setSelectedFont({
+      fontId: selectedId,
+      displayName: textContent!
+    });
+    setCurrentFont(fontId);
     listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
   };
 
@@ -117,7 +114,24 @@ export const Dropdown = () => {
             <path fill="none" stroke="#A445ED" strokeWidth="1.5" d="m1 1 6 6 6-6"/>
           </svg>
 
-          {selectedFont}
+          <Typography
+            as="span"
+            text={selectedFont.displayName}
+            fontStyles={{
+              fontWeight: 700,
+              fontSize: {
+                mobile: '14px',
+                tablet: '18px'
+              },
+              lineHeight: {
+                mobile: {
+                  sansSerif: '24px',
+                  serif: '24px',
+                  mono: '24px'
+                }
+              }
+            }}
+          />
         </S.ComboBox>
 
         <S.ListBox
@@ -130,11 +144,12 @@ export const Dropdown = () => {
         >
           {/* TODO: Take list items from font context */}
           {
-            ['Sans Serif', 'Serif', 'Mono'].map(font => (
+            fontList.map(({ fontId, displayName }) => (
               <DropdownItem
-                key={font}
-                font={font}
-                isSelected={font === selectedFont}
+                key={fontId}
+                fontId={fontId}
+                displayName={displayName}
+                isSelected={fontId === selectedFont.fontId}
                 onClick={onDropdownItemClick}
               />
             ))

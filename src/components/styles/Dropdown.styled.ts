@@ -1,14 +1,14 @@
 import styled, { css, keyframes } from 'styled-components';
-import { mediaQuery } from '../../mediaQueries.styled';
-import { Fonts } from '../../types/types';
+import { mediaQuery } from '../../utils/mediaQueries.styled';
+import { FontIds } from '../../types';
 
 interface ListItemProps {
   $mode: string;
 }
 
-const ListItem = styled.div<ListItemProps>`
+const ListItem = styled.div<ListItemProps>(({theme, $mode}) => css`
   cursor: pointer;
-  color: ${({theme}) => theme.colors.text};
+  color: ${theme.colors.text};
   font-size: 0.875rem;
   line-height: 1.5rem;
   font-weight: 700;
@@ -16,11 +16,11 @@ const ListItem = styled.div<ListItemProps>`
   transition: color 0.2s ease-in-out;
 
   &:is(:hover, :focus) {
-    color: ${({theme}) => theme.colors.purpleFlower};
+    color: ${theme.colors.purpleFlower};
   }
 
   &.selected {
-    outline: 2px solid ${({theme}) => theme.colors.purpleFlower};
+    outline: 2px solid ${theme.colors.purpleFlower};
     outline-offset: 3px;
   }
 
@@ -28,23 +28,23 @@ const ListItem = styled.div<ListItemProps>`
     font-size: 1.125rem;
   `)}
 
-  ${props => {
-    switch(props.$mode) {
-      case Fonts.sansSerif:
+  ${() => {
+    switch($mode) {
+      case FontIds.sansSerif:
         return css`
-          font-family: ${({theme}) => theme.fontFamily.Inter};
-        `
-      case Fonts.serif:
+          font-family: ${theme.fontFamily.Inter};
+        `;
+      case FontIds.serif:
         return css`
-          font-family: ${({theme}) => theme.fontFamily.Lora};
-        `
-      case Fonts.mono:
+          font-family: ${theme.fontFamily.Lora};
+        `;
+      case FontIds.mono:
         return css`
-          font-family: ${({theme}) => theme.fontFamily.Inconsolata};
-        `
+          font-family: ${theme.fontFamily.Inconsolata};
+        `;
     }
   }}
-`;
+`);
 
 const fadeInDown = keyframes`
   from {
@@ -105,13 +105,6 @@ const ComboBox = styled.div`
   flex-direction: row-reverse;
   place-items: center;
   gap: 1.125rem;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  font-weight: 700;
-
-  ${mediaQuery('sm', css`
-    font-size: 1.125rem;
-  `)}
 `;
 
 const DropdownContainer = styled.div`
