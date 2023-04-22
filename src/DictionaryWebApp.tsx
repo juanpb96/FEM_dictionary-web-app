@@ -1,15 +1,14 @@
-import styled from 'styled-components';
-
-// TODO: Continue reading https://storybook.js.org/tutorials/intro-to-storybook/react/en/simple-component/
-
-const Button = styled.button`
-    background-color: red;
-`;
+import { GlobalStyle } from './global.styles';
+import { FontProvider, ThemeProvider } from './contexts';
+import { Header } from './components';
 
 export const DictionaryWebApp = () => {
   return (
-    <>
-        <Button>Logins</Button>
-    </>
+    <FontProvider>
+      <ThemeProvider>
+        <GlobalStyle />
+        <Header />
+      </ThemeProvider>
+    </FontProvider>
   )
 }
