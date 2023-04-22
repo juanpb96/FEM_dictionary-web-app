@@ -1,12 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+import styled, { css } from 'styled-components';
 import { DecoratorFn } from '@storybook/react';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import styled, { css } from 'styled-components';
 import { GlobalStyle } from '../src/global.styles';
-import { FontContext } from '../src/contexts/FontContext';
-import { Fonts } from '../src/types/types';
-import { ThemeContext, ThemeContextType, ThemeContextProvider } from '../src/contexts';
-import { useEffect } from 'react';
+import {
+  ThemeContext,
+  ThemeContextType,
+  ThemeProvider,
+  FontProvider,
+  FontContext,
+  FontContextType
+} from '../src/contexts';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -41,23 +45,29 @@ const ToolbarThemeSwitch = ({context}) => {
   return <></>;
 };
 
-const withTheme: DecoratorFn = (StoryFn, context) => {
-  const [currentFont, setCurrentFont] = useState(Fonts.sansSerif);  
+const ToolbarFontSwitch = ({context}) => {
+  const { setCurrentFont } = useContext(FontContext) as FontContextType;
+  const newFont = context.parameters.fontFamily || context.globals.fontFamily;
 
-  const changeFont = (newFont: string) => {
+  useEffect(() => {
     setCurrentFont(newFont);
-  };
+  }, [newFont]);  
 
+  return <></>;
+};
+
+const withTheme: DecoratorFn = (StoryFn, context) => {
   return (
-    <ThemeContextProvider>
-      <FontContext.Provider value={{currentFont, changeFont}}>
+    <FontProvider>
+      <ThemeProvider>
         <ThemeBlock>
-          <GlobalStyle $font={currentFont} />
+          <GlobalStyle />
           <ToolbarThemeSwitch context={context} />
+          <ToolbarFontSwitch context={context} />
           <StoryFn />
         </ThemeBlock>
-      </FontContext.Provider>
-    </ThemeContextProvider>
+      </ThemeProvider>
+    </FontProvider>
   );
 };
 
@@ -74,6 +84,19 @@ export const globalTypes = {
       ],
     },
     showName: true
+  },
+  fontFamily: {
+    name: 'Font Family',
+    description: 'Global font family for text',
+    defaultValue: 'sansSerif',
+    toolbar: {
+      icon: 'paragraph',
+      items: [
+        { value: 'sansSerif', title: 'Sans Serif' },
+        { value: 'serif', title: 'Serif' },
+        { value: 'mono', title: 'Mono' },
+      ]
+    }
   }
 }
 
