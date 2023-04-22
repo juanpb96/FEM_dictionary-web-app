@@ -6,13 +6,8 @@ import InconsolataBoldTTF from './assets/fonts/inconsolata/static/Inconsolata-Bo
 import LoraRegularTTF from './assets/fonts/lora/static/Lora-Regular.ttf';
 import LoraBoldTTF from './assets/fonts/lora/static/Lora-Bold.ttf';
 import LoraBoldItalicTTF from './assets/fonts/lora/static/Lora-BoldItalic.ttf';
-import { Fonts } from './types/types';
 
-interface DefaultTheme {
-  $font: string;
-}
-
-export const GlobalStyle = createGlobalStyle<DefaultTheme>`
+export const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Inter';
     src: url(${InterRegularTTF}) format('truetype');
@@ -125,23 +120,6 @@ export const GlobalStyle = createGlobalStyle<DefaultTheme>`
   }
 
   body {
-    ${props => {
-      switch(props.$font) {
-        case Fonts.sansSerif:
-          return css`
-            font-family: ${({theme}) => theme.fontFamily.Inter};
-          `
-        case Fonts.serif:
-          return css`
-            font-family: ${({theme}) => theme.fontFamily.Lora};
-          `
-        case Fonts.mono:
-          return css`
-            font-family: ${({theme}) => theme.fontFamily.Inconsolata};
-          `
-      }
-    }}
-
     background-color: ${({theme}) => theme.colors.backgroundPrimary};
     color: ${({theme}) => theme.colors.text};
     transition: background-color 150ms ease-in-out,
