@@ -1,3 +1,5 @@
+import { KeyOfFont } from "../types";
+
 export const DefaultStyles = {
   colors: {
     night: '#050505',
@@ -15,6 +17,7 @@ export const DefaultStyles = {
     Inter: 'Inter, Arial, Helvetica, sans-serif',
     Lora: 'Lora, Georgia, "Times New Roman", Times, serif'
   },
+  currentFont: 'sansSerif' as KeyOfFont,
   width: {
     mobile: 'calc(100% - 24px * 2)',
     tablet: 'calc(100% - 40px * 2)',
@@ -27,3 +30,6 @@ export const DefaultStyles = {
     xl: '1280px'
   }
 };
+
+type TypeOfColors = typeof DefaultStyles.colors;
+export type KeyOfColors = keyof TypeOfColors;

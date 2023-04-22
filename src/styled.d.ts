@@ -1,5 +1,6 @@
 // import original module declarations
 import 'styled-components';
+import { KeyOfFont } from './types';
 
 // and extend them!
 declare module 'styled-components' {
@@ -25,6 +26,7 @@ declare module 'styled-components' {
       Inter: string;
       Lora: string;
     };
+    currentFont: KeyOfFont;
     width: {
       mobile: string;
       tablet: string;
