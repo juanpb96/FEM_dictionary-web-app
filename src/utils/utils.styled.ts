@@ -1,5 +1,8 @@
-import { css } from 'styled-components';
-import { mediaQuery } from '../mediaQueries.styled';
+import { useContext } from 'react';
+import { ThemeContext, css } from 'styled-components';
+import { mediaQuery } from './mediaQueries.styled';
+import { FontIds, KeyOfFont } from '../types';
+import { LineHeightViewport } from '../components';
 
 const widthCSS = (({theme}: any) => css`
   width: ${theme.width.mobile};
@@ -15,6 +18,29 @@ const widthCSS = (({theme}: any) => css`
   
 `);
 
+const getCurrentFontFamily = (currentFont: KeyOfFont) => {
+  const { fontFamily } = useContext(ThemeContext);
+
+  switch(FontIds[currentFont]) {
+    case FontIds.sansSerif:
+      return fontFamily.Inter;
+    case FontIds.serif:
+      return fontFamily.Lora;
+    case FontIds.mono:
+      return fontFamily.Inconsolata;
+  }
+};
+
+const getCurrentLineHeight = (currentFont: KeyOfFont, lineHeight: LineHeightViewport) => css`
+  line-height: ${lineHeight.mobile[currentFont]};
+
+  ${lineHeight.tablet && mediaQuery('sm', css`
+    line-height: ${lineHeight.tablet[currentFont]};
+  `)
+}`;
+
 export {
-  widthCSS
+  widthCSS,
+  getCurrentFontFamily,
+  getCurrentLineHeight
 };
