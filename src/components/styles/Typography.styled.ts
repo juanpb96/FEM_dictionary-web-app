@@ -1,47 +1,32 @@
 import styled, { css } from 'styled-components';
-import { FontIds } from '../../types';
+import { KeyOfFont } from '../../types';
 import { mediaQuery } from '../../utils/mediaQueries.styled';
 import { FontStyles } from '../Typography';
+import { getCurrentFontFamily, getCurrentLineHeight } from '../../utils/utils.styled';
 
 interface TextProps {
-  $fontStyles: FontStyles
+  $fontStyles: FontStyles;
+  $currentFont: KeyOfFont;
 }
 
-const Text = styled.span<TextProps>(({theme, $fontStyles}) => css`
+const Text = styled.span<TextProps>(({theme, $fontStyles, $currentFont}) => css`
   ${$fontStyles.color && css`
-    color: ${$fontStyles.color};
+    color: ${theme.colors[$fontStyles.color]};
   `}
 
   font-weight: ${$fontStyles.fontWeight};
-
-  ${() => {
-    switch(FontIds[theme.currentFont]) {
-      case FontIds.sansSerif:
-        return css`
-          font-family: ${theme.fontFamily.Inter};
-        `
-      case FontIds.serif:
-        return css`
-          font-family: ${theme.fontFamily.Lora};
-        `
-      case FontIds.mono:
-        return css`
-          font-family: ${theme.fontFamily.Inconsolata};
-        `
-    }
-  }}
-
+  font-family: ${getCurrentFontFamily($currentFont)};
+  ${getCurrentLineHeight($currentFont, $fontStyles.lineHeight)}
+  
   font-size: ${$fontStyles.fontSize.mobile};
 
   ${$fontStyles.fontSize.tablet && mediaQuery('sm', css`
     font-size: ${$fontStyles.fontSize.tablet};
   `)}
 
-  line-height: ${$fontStyles.lineHeight.mobile[theme.currentFont]};
-
-  ${$fontStyles.lineHeight.tablet && mediaQuery('sm', css`
-    line-height: ${$fontStyles.lineHeight.tablet[theme.currentFont]};
-  `)}
+  ${$fontStyles.marginBottom && css`
+    margin-bottom: ${$fontStyles.marginBottom};
+  `}
 `);
 
 export {
