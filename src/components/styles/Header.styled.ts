@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { mediaQuery } from '../../mediaQueries.styled';
+import { mediaQuery } from '../../utils/mediaQueries.styled';
 
 const VerticalLine = styled.span`
   display: inline-block;

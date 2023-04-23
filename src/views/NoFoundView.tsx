@@ -1,4 +1,5 @@
 import * as S from './styles/NoFoundView.styled';
+import { Typography } from '../components';
 
 export const NoFoundView = () => {
   return (
@@ -8,10 +9,45 @@ export const NoFoundView = () => {
         alt="😕"
       />
 
-      <S.Title>No Definitions Found</S.Title>
-      <S.Message>
-        Sorry pal, we couldn't find definitions for the word you were looking for. You can try the search again at later time or head to the web instead.
-      </S.Message>
+      <Typography
+        as="h2"
+        text="No Definitions Found"
+        fontStyles={{
+          fontWeight: 700,
+          fontSize: {
+            mobile: '1.125rem',
+            tablet: '1.25rem'
+          },
+          lineHeight: {
+            mobile: {
+              sansSerif: '24px',
+              serif: '26px',
+              mono: '21px'
+            }
+          },
+          marginBottom: '1.5rem'
+        }}
+      />
+
+      <Typography
+        as="p"
+        text="Sorry pal, we couldn't find definitions for the word you were looking for. You can try the search again at later time or head to the web instead."
+        fontStyles={{
+          color: 'paleSky',
+          fontWeight: 400,
+          fontSize: {
+            mobile: '1rem',
+            tablet: '1.125rem'
+          },
+          lineHeight: {
+            mobile: {
+              sansSerif: '24px',
+              serif: '26px',
+              mono: '21px'
+            }
+          }
+        }}
+      />
     </S.NoFoundViewContainer>
   );
 };

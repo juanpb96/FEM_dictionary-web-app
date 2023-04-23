@@ -12,13 +12,15 @@ interface SelectedFontValues {
   displayName: string;
 }
 
+const initialState: SelectedFontValues = {
+  fontId: 'sansSerif',
+  displayName: 'Sans Serif'
+};
+
 // TODO: Set a global font in a context and save it to localStorage
 export const Dropdown = () => {
   const { setCurrentFont, fontList } = useContext(FontContext) as FontContextType;
-  const [selectedFont, setSelectedFont] = useState<SelectedFontValues>({
-    fontId: 'sansSerif',
-    displayName: 'Sans Serif'
-  });
+  const [selectedFont, setSelectedFont] = useState<SelectedFontValues>(initialState);
   // FIXME: Active descendant should be assigned from context
   const comboboxRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
@@ -79,7 +81,7 @@ export const Dropdown = () => {
   };
 
   const onDropdownBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    if ((e.relatedTarget as HTMLElement).id !== 'font-listbox') {
+    if ((e.relatedTarget as HTMLElement)?.id !== 'font-listbox') {
       listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
     }    
   }
