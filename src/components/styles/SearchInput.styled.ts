@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { mediaQuery } from '../../mediaQueries.styled';
-import { Fonts } from '../../types/types';
-
+import { mediaQuery } from '../../utils/mediaQueries.styled';
+import { KeyOfFont } from '../../types';
+import { getCurrentFontFamily, getCurrentLineHeight } from '../../utils/utils.styled';
 
 const SearchIcon = styled.svg`
   min-width: 15.5px;
@@ -12,10 +12,10 @@ const SearchIcon = styled.svg`
 interface TextFieldProps {
   $hasError: boolean;
   $hasFocus: boolean;
-  $font: string;
+  $currentFont: KeyOfFont;
 }
 
-const TextField = styled.div<TextFieldProps>(({theme, $hasFocus, $hasError, $font}) => css`
+const TextField = styled.div<TextFieldProps>(({theme, $hasFocus, $hasError, $currentFont}) => css`
   display: flex;
   place-items: center;
   gap: 1.5rem;
@@ -44,45 +44,31 @@ const TextField = styled.div<TextFieldProps>(({theme, $hasFocus, $hasError, $fon
     caret-color: ${theme.colors.purpleFlower};
     color: ${theme.colors.text};
     font-weight: 700;
-    font-size: 16px;
-    font-family: inherit;
+    font-size: 1rem;
     border: none;
     background-color: transparent;
     outline: none;
     transition: color 150ms ease-in-out;
+    font-family: ${getCurrentFontFamily($currentFont)};
+    ${getCurrentLineHeight(
+      $currentFont,
+      {
+        mobile: {
+          sansSerif: '19px',
+          serif: '20px',
+          mono: '17px'
+        },
+        tablet: {
+          sansSerif: '24px',
+          serif: '26px',
+          mono: '21px'
+        }
+      }
+    )}
 
     ${mediaQuery('sm', css`
       font-size: 1.25rem;
     `)}
-
-    ${() => {
-      switch($font) {
-        case Fonts.sansSerif:
-          return css`
-            line-height: 19px;
-
-            ${mediaQuery('sm', css`
-              line-height: 24px;
-            `)}
-          `
-        case Fonts.serif:
-          return css`
-            line-height: 20px;
-
-            ${mediaQuery('sm', css`
-              line-height: 26px;
-            `)}
-          `
-        case Fonts.mono:
-          return css`
-            line-height: 17px;
-
-            ${mediaQuery('sm', css`
-              line-height: 21px;
-            `)}
-          `
-      }
-    }}
   }
 `);
 

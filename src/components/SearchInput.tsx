@@ -3,7 +3,7 @@ import { FontContext, FontContextType } from '../contexts/FontContext';
 import * as S from './styles/SearchInput.styled';
 
 export const SearchInput = () => {
-  const { currentFont } = useContext(FontContext) as FontContextType;
+  const { currentFont } = useContext(FontContext) as FontContextType; 
   const [inputValue, setInputValue] = useState('');
   const [hasError, setHasError] = useState(false);
   const [hasFocus, setHasFocus] = useState(false);  
@@ -55,7 +55,7 @@ export const SearchInput = () => {
         onClick={onInputContainerClick}
         $hasError={hasError}
         $hasFocus={hasFocus}
-        $font={currentFont}
+        $currentFont={currentFont}
       >
         <input
           id="search-input"
