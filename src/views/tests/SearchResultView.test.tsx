@@ -1,15 +1,25 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { composeStories } from '@storybook/testing-react';
 import  * as Stories from '../stories/SearchResultView.stories';
 import { VALID_RESPONSE_1_RESULT } from './fixtures/SearchResult.fixture';
+import { ThemeProvider } from '../../contexts';
 
-const { SearchResultOneResult } = composeStories(Stories);
+const { DefaultResult } = composeStories(Stories);
 
 describe('Test <SearchResultView />', () => {
   test('should render properly when request returns one result', () => {
-    const { word, phonetic, meanings, sourceUrls } = VALID_RESPONSE_1_RESULT[0];
+    const {
+      word,
+      phonetic,
+      meanings,
+      sourceUrls
+    } = VALID_RESPONSE_1_RESULT[0];
 
-    const { getByRole, getByTestId, getByText } = render(<SearchResultOneResult />);
+    const { getByRole, getByTestId, getByText } = render(
+      <ThemeProvider>
+        <DefaultResult />
+      </ThemeProvider>
+    );
 
     expect(getByRole('heading', {level: 2}).textContent).toBe(word);
     expect(getByTestId('phonetics').textContent).toBe(phonetic);
@@ -34,6 +44,17 @@ describe('Test <SearchResultView />', () => {
     expect(sourceSection?.children[0].textContent).toBe('Source');
     expect(sourceSection?.children[1].textContent).toBe(sourceUrls[0]);
   });
+
+  test.todo('should render response with multiple antonyms');
+  test.todo('should render multiple results properly');
+  test.todo('should render response with multiple source urls');
+
+  test.todo('should not display phonetics when response has no phonetics');
+
+  test.todo('should display values properly for "keyboard"');
+  test.todo('should display values properly for "spell"');
+  test.todo('should display values properly for "aaa"');
+  test.todo('should display values properly for "positive"');
 });
 
 export {};

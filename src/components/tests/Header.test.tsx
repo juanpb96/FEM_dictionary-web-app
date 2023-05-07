@@ -1,16 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
 import * as stories from '../stories/Header.stories';
-import { ThemeProvider } from '../../contexts';
+import { FontProvider, ThemeProvider } from '../../contexts';
 
 const { LightTheme } = composeStories(stories);
 
 describe('Test <Header />', () => {
   test('should render properly', () => {
     render(
-      <ThemeProvider>
-        <LightTheme />
-      </ThemeProvider>
+      <FontProvider>
+        <ThemeProvider>
+          <LightTheme />
+        </ThemeProvider>
+      </FontProvider>
     );
 
     const logo = screen.getByTestId('logo-img');
@@ -22,9 +24,9 @@ describe('Test <Header />', () => {
 
     expect(dropdown).toBeTruthy();
 
-    const themeSwither = screen.getByRole('switch');
+    const themeSwitcher = screen.getByRole('switch');
 
-    expect(themeSwither).toBeTruthy();
+    expect(themeSwitcher).toBeTruthy();
   });
 });
 

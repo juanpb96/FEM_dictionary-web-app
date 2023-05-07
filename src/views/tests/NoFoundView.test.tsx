@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
 import * as Stories from '../stories/NoFound.stories';
-import { ThemeContextProvider } from '../../contexts';
+import { ThemeProvider } from '../../contexts';
 
 const { NoDefinitionFound } = composeStories(Stories);
 
 describe('Test <NoFoundView />', () => {
   test('should render properly', () => { 
     render(
-      <ThemeContextProvider>
+      <ThemeProvider>
         <NoDefinitionFound />
-      </ThemeContextProvider>
+      </ThemeProvider>
     );    
 
     expect(screen.getByRole('img')).toBeTruthy();
