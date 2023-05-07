@@ -1,6 +1,6 @@
 import { composeStories } from '@storybook/react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { ThemeContextProvider } from '../../contexts';
+import { ThemeProvider } from '../../contexts';
 import * as stories from '../stories/ThemeSwitcher.stories';
 
 const { ThemeSwitchButton } = composeStories(stories);
@@ -8,9 +8,9 @@ const { ThemeSwitchButton } = composeStories(stories);
 describe('Test <ThemeSwithcher />', () => { 
   test('should render properly', () => {
     render(
-      <ThemeContextProvider>
+      <ThemeProvider>
         <ThemeSwitchButton />
-      </ThemeContextProvider>
+      </ThemeProvider>
     );
 
     const button = screen.getByRole('switch');
@@ -25,9 +25,9 @@ describe('Test <ThemeSwithcher />', () => {
 
   test('should change to dark theme and change aria checked to "true"', () => {
     render(
-      <ThemeContextProvider>
+      <ThemeProvider>
         <ThemeSwitchButton />
-      </ThemeContextProvider>
+      </ThemeProvider>
     );
 
     const button = screen.getByRole('switch');

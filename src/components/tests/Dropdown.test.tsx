@@ -1,6 +1,6 @@
 import { composeStories } from '@storybook/react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { FontContext, fontList, FontProvider, ThemeContextProvider } from '../../contexts';
+import { FontContext, fontList, FontProvider, ThemeProvider } from '../../contexts';
 import * as stories from '../stories/Dropdown.stories';
 
 const { FontList } = composeStories(stories);
@@ -9,9 +9,9 @@ describe('Test <Dropdown />', () => {
   test('should render properly', () => {
     render(
       <FontProvider>
-        <ThemeContextProvider>
+        <ThemeProvider>
           <FontList />
-        </ThemeContextProvider>
+        </ThemeProvider>
       </FontProvider>
     );
 
@@ -33,9 +33,9 @@ describe('Test <Dropdown />', () => {
 
     render(
       <FontContext.Provider value={{ setCurrentFont, fontList }}>
-        <ThemeContextProvider>
+        <ThemeProvider>
             <FontList />
-        </ThemeContextProvider>
+        </ThemeProvider>
       </FontContext.Provider>
     );
 
@@ -65,9 +65,9 @@ describe('Test <Dropdown />', () => {
   test('should confirm the item as selected and its id as active-descendant', () => {
     render(
       <FontProvider>
-        <ThemeContextProvider>
+        <ThemeProvider>
           <FontList />
-        </ThemeContextProvider>
+        </ThemeProvider>
       </FontProvider>
     );
 
@@ -89,9 +89,9 @@ describe('Test <Dropdown />', () => {
 
     render(
       <FontContext.Provider value={{ setCurrentFont, fontList }}>
-        <ThemeContextProvider>
+        <ThemeProvider>
             <FontList />
-        </ThemeContextProvider>
+        </ThemeProvider>
       </FontContext.Provider>
     );
 

@@ -1,6 +1,6 @@
 import { composeStories } from '@storybook/react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ThemeContextProvider } from '../../contexts';
+import { ThemeProvider } from '../../contexts';
 import * as stories from '../stories/SearchInput.stories';
 
 const { SearchInputField } = composeStories(stories);
@@ -8,9 +8,9 @@ const { SearchInputField } = composeStories(stories);
 describe('Test <SearchInput />', () => { 
   test('should render properly', () => {
     render(
-      <ThemeContextProvider>
+      <ThemeProvider>
         <SearchInputField />
-      </ThemeContextProvider>
+      </ThemeProvider>
     );
 
     const form = screen.getByRole('search');
@@ -28,9 +28,9 @@ describe('Test <SearchInput />', () => {
 
   test('should display error message if search input is empty', () => {
     render(
-      <ThemeContextProvider>
+      <ThemeProvider>
         <SearchInputField />
-      </ThemeContextProvider>
+      </ThemeProvider>
     );
 
     const form = screen.getByRole('search');
