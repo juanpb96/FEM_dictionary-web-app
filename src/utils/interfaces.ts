@@ -2,7 +2,7 @@
 
 export interface Response {
     word:       string;
-    phonetic:   string;
+    phonetic?:   string;
     phonetics:  Phonetic[];
     meanings:   Meaning[];
     license:    License;
@@ -29,8 +29,8 @@ export interface Response {
   
   export interface Definition {
     definition: string;
-    synonyms:   string[];
-    antonyms:   any[];
+    synonyms?:   string[];
+    antonyms?:   string[];
     example?:   string;
   }
   

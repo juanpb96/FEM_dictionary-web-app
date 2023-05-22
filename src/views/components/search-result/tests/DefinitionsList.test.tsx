@@ -6,8 +6,6 @@ describe('Test <DefinitionsList />', () => {
   test('should render a single definition without example', () => {
     const definitions = [{
       definition: 'Speech, discourse.',
-      synonyms: [],
-      antonyms: [],
       example: ''
     }];
 
@@ -28,8 +26,6 @@ describe('Test <DefinitionsList />', () => {
   test('should render a single definition with example', () => {
     const definitions = [{
       definition: 'A magical effect or influence induced by an incantation or formula.',
-      synonyms: [],
-      antonyms: [],
       example: 'under a spell'
     }];
 
@@ -51,16 +47,8 @@ describe('Test <DefinitionsList />', () => {
 
   test('should render a multiple definitions without examples', () => {
     const definitions = [
-      {
-        definition: "Speech, discourse.",
-        synonyms: [],
-        antonyms: []
-      },
-      {
-        definition: "To put under the influence of a spell; to affect by a spell; to bewitch; to fascinate; to charm.",
-        synonyms: [],
-        antonyms: []
-      }
+      { definition: "Speech, discourse." },
+      { definition: "To put under the influence of a spell; to affect by a spell; to bewitch; to fascinate; to charm." }
     ];
 
     render(
@@ -83,14 +71,10 @@ describe('Test <DefinitionsList />', () => {
     const definitions = [
       {
         definition: "Words or a formula supposed to have magical powers.",
-        synonyms: [],
-        antonyms: [],
         example: "He cast a spell to cure warts."
       },
       {
         definition: "A magical effect or influence induced by an incantation or formula.",
-        synonyms: [],
-        antonyms: [],
         example: "under a spell"
       }
     ];
@@ -117,14 +101,10 @@ describe('Test <DefinitionsList />', () => {
     const definitions = [
       {
         definition: "Words or a formula supposed to have magical powers.",
-        synonyms: [],
-        antonyms: [],
         example: "He cast a spell to cure warts."
       },
       {
         definition: "A magical effect or influence induced by an incantation or formula.",
-        synonyms: [],
-        antonyms: [],
         example: ""
       }
     ];
