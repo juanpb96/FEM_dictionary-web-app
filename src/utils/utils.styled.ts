@@ -4,19 +4,22 @@ import { mediaQuery } from './mediaQueries.styled';
 import { FontIds, KeyOfFont } from '../types';
 import { LineHeightViewport } from '../components';
 
-const widthCSS = (({theme}: any) => css`
-  width: ${theme.width.mobile};
-  max-width: ${theme.width.desktop};
+const widthCSS = () => {
+  const { width } = useContext(ThemeContext);
 
-  ${mediaQuery('sm', css`
-    width: ${theme.width.tablet};
-  `)}
+  return css`
+    width: ${width.mobile};
+    max-width: ${width.desktop};
 
-  ${mediaQuery('lg', css`
-    width: ${theme.width.desktop};
-  `)}
-  
-`);
+    ${mediaQuery('sm', css`
+      width: ${width.tablet};
+    `)}
+
+    ${mediaQuery('lg', css`
+      width: ${width.desktop};
+    `)}
+  `;
+};
 
 const getCurrentFontFamily = (currentFont: KeyOfFont) => {
   const { fontFamily } = useContext(ThemeContext);
