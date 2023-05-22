@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import * as S from '../../styles/SearchResultView.styled';
 import { Typography } from "../../../components";
 import { POSSubtitle } from "./POSSubtitle";
@@ -8,12 +9,14 @@ interface WordListProps {
 }
 
 export const WordList = ({title, list}: WordListProps) => {
+  const wordList = useMemo(() => [...new Set(list)], [list]);
+
   return (
     <S.WordListContainer>
       <POSSubtitle text={title} />
       <S.WordList>
         {
-          list.map((word: string, index) => (
+          wordList.map((word: string, index) => (
             <S.WordListItem key={word + index}>
               <Typography
                 as="span"
