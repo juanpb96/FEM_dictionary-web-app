@@ -1,5 +1,11 @@
 import styled, { css } from 'styled-components';
-import { widthCSS } from '../../utils/utils.styled';
+import { getCurrentFontFamily, getCurrentLineHeight, widthCSS } from '../../utils/utils.styled';
+import { mediaQuery } from '../../utils/mediaQueries.styled';
+import { KeyOfFont } from '../../types';
+
+interface FontProps {
+  $currentFont: KeyOfFont;
+};
 
 const ViewContainer = styled.article`
   ${widthCSS}
@@ -13,20 +19,15 @@ const ViewHeader = styled.header`
                        "phonetic audio";
 `;
 
-const Title = styled.h2(({theme}) => css`
-  grid-area: title;
-  font-weight: 700;
-  font-size: 2rem;
-  font-family: inherit;
-  /* TODO: Add $font flag to render an individual line height  */
-  /* Consider a function with 3 values depending on each font */
-  line-height: 39px;
-`);
-
 const Phonetic = styled.p(({theme}) => css`
   grid-area: phonetic;
   color: ${theme.colors.purpleFlower};
   font: 400 1.125rem/1.5rem ${theme.fontFamily.Inter};
+
+  ${mediaQuery('sm', css`
+    font-size: 24px;
+    line-height: 29px;
+  `)}
 `);
 
 const PlayButton = styled.button(({theme}) => css`
@@ -48,16 +49,12 @@ const POSSection = styled.section(({theme}) => css`
   margin-top: 2rem;
 `);
 
-const POSTitle = styled.h3(({theme}) => css`
+const POSTitleContainer = styled.div(({theme}) => css`
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
-  font-weight: 700;
   font-style: italic;
-  font-size: 1.125rem;
-  /* FIXME: Replace with line-height function */
-  line-height: 22px;
 
   &::after {
     content: '';
@@ -68,14 +65,7 @@ const POSTitle = styled.h3(({theme}) => css`
   }
 `);
 
-const POSSubtitle = styled.h4(({theme}) => css`
-  color: ${theme.colors.paleSky};
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-`);
-
-const DefinitionsList = styled.ul(({theme}) => css`
+const DefinitionsList = styled.ul<FontProps>(({theme, $currentFont}) => css`
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
@@ -84,10 +74,21 @@ const DefinitionsList = styled.ul(({theme}) => css`
 
   & li {
     padding-left: 0.25rem;
+    font-size: 15px;
+    font-family: ${getCurrentFontFamily($currentFont)};
+    line-height: 24px;
+
+    ${mediaQuery('sm', css`
+      font-size: 18px;
+    `)}
 
     &::marker {
-      /* TODO: Set this color as a default value in theme */
       color: #8F19E8;
+    }
+
+    & blockquote {
+      color: ${theme.colors.paleSky};
+      margin-top: 13px;
     }
   }
 `);
@@ -103,57 +104,69 @@ const WordList = styled.ul`
   list-style-type: none;
 `;
 
-const WordListItem = styled.li(({theme}) => css`
-  color: ${theme.colors.purpleFlower};
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 19.36px;
-  /* TODO: Get font styles from a function */
-
+const WordListItem = styled.li`
   &:not(:first-child) {
     margin-top: 0.5rem;
   }
-`);
+`;
 
 const SourceSection = styled.section(({theme}) => css`
   margin-top: 2rem;
   border-top: 1px solid ${theme.colors.mercury};
-  padding-top: 1.5rem;
+  padding-block: 1.5rem;
+
+  ${mediaQuery('sm', css`
+    display: flex;
+    gap: 25px;
+  `)}
 `);
 
-const SourceTitle = styled.h3(({theme}) => css`
+const SourceFontCSS = (currentFont: KeyOfFont) => css`
   font-weight: 400;
   font-size: 14px;
-  line-height: 17px;
-  /* TODO: Get font styles from a function */
-
-  color: ${theme.colors.paleSky};
+  font-family: ${getCurrentFontFamily(currentFont)};
+  ${getCurrentLineHeight(
+    currentFont,
+    {
+      mobile: {
+        sansSerif: '16.94px',
+        serif: '17.92px',
+        mono: '14.69px'
+      }
+    }
+  )}
   text-decoration: underline;
+`
+
+const SourceTitle = styled.h3<FontProps>(({theme, $currentFont}) => css`
+  color: ${theme.colors.paleSky};
+  ${SourceFontCSS($currentFont)}
 `);
 
 const SourceList = styled.ul`
   padding: 0;
   margin-top: 0.5rem;
   list-style-type: none;
+
+  ${mediaQuery('sm', css`
+    margin: 0;
+  `)}
 `;
 
-const SourceListItem = styled.li(({theme}) => css`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
+const SourceListItem = styled.li<FontProps>(({theme, $currentFont}) => css`
+  ${SourceFontCSS($currentFont)}
+  
   &:not(:first-child) {
     margin-top: 6px;
   }
 
   & a {
     color: ${theme.colors.text};
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 17px;
   }
 
   & svg {
+    display: inline-block;
+    margin-left: 0.5rem;
     width: 0.75rem;
     height: 0.75rem;
     color: ${theme.colors.paleSky}
@@ -163,12 +176,10 @@ const SourceListItem = styled.li(({theme}) => css`
 export {
   ViewContainer,
   ViewHeader,
-  Title,
   Phonetic,
   PlayButton,
   POSSection,
-  POSTitle,
-  POSSubtitle,
+  POSTitleContainer,
   DefinitionsList,
   WordListContainer,
   WordList,
