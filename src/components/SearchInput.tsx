@@ -1,12 +1,14 @@
 import { useState, useContext } from 'react';
-import { FontContext, FontContextType } from '../contexts/FontContext';
+import { FontContext, FontContextType } from '../contexts';
 import * as S from './styles/SearchInput.styled';
+import { useSearch } from '../hooks/useSearch';
 
 export const SearchInput = () => {
   const { currentFont } = useContext(FontContext) as FontContextType; 
   const [inputValue, setInputValue] = useState('');
   const [hasError, setHasError] = useState(false);
-  const [hasFocus, setHasFocus] = useState(false);  
+  const [hasFocus, setHasFocus] = useState(false);
+  const { searchWordAndRedirect } = useSearch();  
 
   const onInputContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     (e.currentTarget.firstChild as HTMLElement).focus();
@@ -29,9 +31,8 @@ export const SearchInput = () => {
     setHasFocus(false);
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Call api with search term
 
     if (inputValue === '') {
       setHasError(true);
@@ -39,6 +40,8 @@ export const SearchInput = () => {
 
       return;
     }
+    
+    await searchWordAndRedirect(inputValue);
   };
 
   return (
@@ -87,7 +90,7 @@ export const SearchInput = () => {
 
       {
         hasError && (
-          <S.ErrorMessage>
+          <S.ErrorMessage $currentFont={currentFont}>
             Whoops, can’t be empty…
           </S.ErrorMessage>
         )

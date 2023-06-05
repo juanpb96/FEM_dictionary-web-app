@@ -72,11 +72,10 @@ const TextField = styled.div<TextFieldProps>(({theme, $hasFocus, $hasError, $cur
   }
 `);
 
-// TODO: Check display when page as content
-const ErrorMessage = styled.p(({theme}) => css`
+const ErrorMessage = styled.p<{$currentFont: KeyOfFont}>(({theme, $currentFont}) => css`
   margin-top: 0.5rem;
   font: 400 16px/16.78px 'sans-serif';
-  font-family: inherit;
+  font-family: ${getCurrentFontFamily($currentFont)};
   color: ${theme.colors.error};
 
   ${mediaQuery('sm', css`
