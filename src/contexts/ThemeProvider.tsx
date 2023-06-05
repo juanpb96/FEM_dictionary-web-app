@@ -1,14 +1,28 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { ThemeContext } from './ThemeContext';
 import { darkTheme, lightTheme } from '../themes';
 import { FontContext, FontContextType } from './FontContext';
+import { LocalStorageKeys } from '../utils/constants';
 
 export const ThemeProvider = ({children}: React.PropsWithChildren) => {
   const { currentFont } = useContext(FontContext) as FontContextType;
-  const [isDarkThemeEnabled, setIsDarkThemeEnabled] = useState<boolean>(false);
+  const isColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  console.log({isColorSchemeDark});
+  const [isDarkThemeEnabled, setIsDarkThemeEnabled] = useState<boolean>(isColorSchemeDark);
   const theme = isDarkThemeEnabled ? darkTheme : lightTheme;
   theme.currentFont = currentFont;
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem(LocalStorageKeys.darkModeEnable);    
+    
+    if (storedValue === 'true') {
+      setIsDarkThemeEnabled(true);
+    } else if (storedValue === 'false') {
+      setIsDarkThemeEnabled(false);
+    }
+  }, []);
+  
 
   return (
     <ThemeContext.Provider value={{ isDarkThemeEnabled, setIsDarkThemeEnabled }}>

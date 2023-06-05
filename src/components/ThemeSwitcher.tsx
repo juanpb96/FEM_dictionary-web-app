@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import * as S from './styles/ThemeSwitcher.styled';
 import { ThemeContext, ThemeContextType } from '../contexts';
+import { LocalStorageKeys } from '../utils/constants';
 
 
 // TODO: Continue with https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/
@@ -8,7 +9,9 @@ export const ThemeSwitcher = () => {
   const {isDarkThemeEnabled, setIsDarkThemeEnabled} = useContext(ThemeContext) as ThemeContextType;
 
   const onClick = () => {
-    setIsDarkThemeEnabled(!isDarkThemeEnabled);
+    const newValue = !isDarkThemeEnabled;
+    setIsDarkThemeEnabled(newValue);
+    localStorage.setItem(LocalStorageKeys.darkModeEnable, newValue.toString());
   };
 
   return (
