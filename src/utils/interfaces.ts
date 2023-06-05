@@ -40,3 +40,17 @@ export interface Response {
     sourceUrl: string;
     license:   License;
   }
+
+  export interface ErrorData {
+    message:    string;
+    resolution: string;
+    title:      string;
+  }
+
+  export interface ErrorResponse {
+    response: {
+      data: ErrorData
+    }
+  }
+
+  
