@@ -6,6 +6,7 @@ import { DROPDOWN_CLASS, KeyOfFont } from '../types';
 import { useDropdown } from '../hooks/useDropdown';
 import { DropdownItem } from './DropdownItem';
 import { Typography } from './Typography';
+import { LocalStorageKeys } from '../utils/constants';
 
 interface SelectedFontValues {
   fontId: KeyOfFont;
@@ -17,7 +18,6 @@ const initialState: SelectedFontValues = {
   displayName: 'Sans Serif'
 };
 
-// TODO: Set a global font in a context and save it to localStorage
 export const Dropdown = () => {
   const { setCurrentFont, fontList } = useContext(FontContext) as FontContextType;
   const [selectedFont, setSelectedFont] = useState<SelectedFontValues>(initialState);
@@ -35,6 +35,19 @@ export const Dropdown = () => {
     onListItemClick
   } = useDropdown();
   const { setAnimatedComponent } = useAnimationEnd(onListboxClose);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem(LocalStorageKeys.preferredFontId);
+    const storedDisplayName = localStorage.getItem(LocalStorageKeys.preferredFontName);
+
+    if (storedId !== null && storedDisplayName !== null) {
+      setSelectedFont({
+        fontId: storedId as KeyOfFont,
+        displayName: storedDisplayName
+      });
+    }
+  }, []);
+  
 
   useEffect(() => {
     if (comboboxRef && comboboxRef.current && listboxRef && listboxRef.current) {
@@ -77,6 +90,8 @@ export const Dropdown = () => {
       displayName: textContent!
     });
     setCurrentFont(fontId);
+    localStorage.setItem(LocalStorageKeys.preferredFontId, fontId);
+    localStorage.setItem(LocalStorageKeys.preferredFontName, textContent!);
     listboxRef.current?.classList.add(DROPDOWN_CLASS.closing);
   };
 

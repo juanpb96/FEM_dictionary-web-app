@@ -11,7 +11,7 @@ export const ThemeSwitcher = () => {
   const onClick = () => {
     const newValue = !isDarkThemeEnabled;
     setIsDarkThemeEnabled(newValue);
-    localStorage.setItem(LocalStorageKeys.darkModeEnable, newValue.toString());
+    localStorage.setItem(LocalStorageKeys.darkModeEnabled, newValue.toString());
   };
 
   return (

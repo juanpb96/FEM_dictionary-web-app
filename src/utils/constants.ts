@@ -1,3 +1,5 @@
 export enum LocalStorageKeys {
-  darkModeEnable = 'darkModeEnable',
+  darkModeEnabled = 'darkModeEnabled',
+  preferredFontId = 'preferredFontId',
+  preferredFontName = 'preferredFontName',
 }
