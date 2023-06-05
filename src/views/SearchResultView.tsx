@@ -1,13 +1,17 @@
+import { useContext } from 'react';
 import * as S from './styles/SearchResultView.styled';
-import { Meaning, Response } from '../utils/interfaces';
+import { Meaning } from '../utils/interfaces';
 import { SourceSection, ViewHeader } from './components/search-result';
 import { POSSection } from './components/search-result/POSSection';
+import { DataContext, DataContextType } from '../contexts';
 
-export interface SearchResultViewProps {
-  data: Response[];
-}
+export const SearchResultView = () => {
+  const { data = [] } = useContext(DataContext) as DataContextType; 
 
-export const SearchResultView = ({data}: SearchResultViewProps) => {
+  if (!data.length) {
+    return <></>;
+  }
+  
   const {
     word,
     phonetic,
