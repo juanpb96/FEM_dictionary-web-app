@@ -1,7 +1,21 @@
-import * as S from './styles/NoFoundView.styled';
+import { useContext } from 'react';
+import { DataContext, DataContextType } from '../contexts/DataContext';
 import { Typography } from '../components';
+import * as S from './styles/NoFoundView.styled';
+
+const DEFAULT_VALUES = {
+  title: 'No Definitions Found',
+  message: 'Sorry pal, we couldn\'t find definitions for the word you were looking for.',
+  resolution: 'You can try the search again at later time or head to the web instead.'
+};
 
 export const NoFoundView = () => {
+  const { error } = useContext(DataContext) as DataContextType;
+  
+  const errorMessage = error?.response?.data 
+    ? `${error?.response?.data.message} ${error?.response?.data.resolution}` 
+    : `${DEFAULT_VALUES.message} ${DEFAULT_VALUES.resolution}`;
+
   return (
     <S.NoFoundViewContainer>
       <S.Emoji
@@ -11,7 +25,7 @@ export const NoFoundView = () => {
 
       <Typography
         as="h2"
-        text="No Definitions Found"
+        text={error?.response?.data.title || DEFAULT_VALUES.title}
         fontStyles={{
           fontWeight: 700,
           fontSize: {
@@ -31,7 +45,7 @@ export const NoFoundView = () => {
 
       <Typography
         as="p"
-        text="Sorry pal, we couldn't find definitions for the word you were looking for. You can try the search again at later time or head to the web instead."
+        text={errorMessage}
         fontStyles={{
           color: 'paleSky',
           fontWeight: 400,
