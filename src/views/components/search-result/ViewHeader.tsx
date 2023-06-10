@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Typography } from '../../../components';
 import * as S from '../../styles/SearchResultView.styled';
 
@@ -8,6 +9,14 @@ interface ViewHeaderProps {
 }
 
 export const ViewHeader = ({word, phonetic, audio}: ViewHeaderProps) => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const onClick = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
   return (
     <S.ViewHeader>
       <Typography
@@ -37,23 +46,30 @@ export const ViewHeader = ({word, phonetic, audio}: ViewHeaderProps) => {
       {/* Not necessary to render with <Typography /> since font family remains the same in the design */}
       <S.Phonetic data-testid="phonetics">{phonetic}</S.Phonetic>
 
-      <S.PlayButton type="button" data-testid="audio-file">
-        <audio src={audio}></audio>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="75"
-          height="75"
-          viewBox="0 0 75 75"
+      {audio && (
+        <S.PlayButton
+          aria-label="Listen to the pronunciation of this word"
+          type="button"
+          data-testid="audio-file"
+          onClick={onClick}
         >
-          <g
-            fill="#A445ED"
-            fillRule="evenodd"
+          <audio ref={audioRef} src={audio}></audio>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="75"
+            height="75"
+            viewBox="0 0 75 75"
           >
-            <circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/>
-            <path d="M29 27v21l21-10.5z"/>
-          </g>
-        </svg>
-      </S.PlayButton>
+            <g
+              fill="#A445ED"
+              fillRule="evenodd"
+            >
+              <circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/>
+              <path d="M29 27v21l21-10.5z"/>
+            </g>
+          </svg>
+        </S.PlayButton>
+      )}
     </S.ViewHeader>
   )
 }
