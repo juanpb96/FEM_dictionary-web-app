@@ -9,7 +9,8 @@ import {
   ThemeProvider,
   FontProvider,
   FontContext,
-  FontContextType
+  FontContextType,
+  DataProvider
 } from '../src/contexts';
 
 export const parameters = {
@@ -62,9 +63,11 @@ const withTheme: DecoratorFn = (StoryFn, context) => {
       <ThemeProvider>
         <ThemeBlock>
           <GlobalStyle />
-          <ToolbarThemeSwitch context={context} />
-          <ToolbarFontSwitch context={context} />
-          <StoryFn />
+          <DataProvider>
+            <ToolbarThemeSwitch context={context} />
+            <ToolbarFontSwitch context={context} />
+            <StoryFn />
+          </DataProvider>
         </ThemeBlock>
       </ThemeProvider>
     </FontProvider>
