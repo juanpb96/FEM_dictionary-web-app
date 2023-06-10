@@ -7,6 +7,8 @@ import {
   VALID_RESPONSE_MULTIPLE_SOURCES,
   VALID_RESPONSE_MULTIPLE_RESULTS
 } from '../tests/fixtures/SearchResult.fixture';
+import { useContext, useEffect } from 'react';
+import { DataContext, DataContextType } from '../../contexts';
 
 export default {
   title: 'Views/SearchResultView',
@@ -16,7 +18,16 @@ export default {
   },
 } as ComponentMeta<typeof SearchResultView>;
 
-const Template: ComponentStory<typeof SearchResultView> = (args) => <SearchResultView {...args} />;
+const Template: ComponentStory<typeof SearchResultView> = (args) => {
+  const { setData } = useContext(DataContext) as DataContextType;
+  const argsWithData = args as {data: Response[]};
+
+  useEffect(() => {
+    setData(argsWithData.data);
+  }, []);  
+
+  return <SearchResultView />
+};
 
 export const DefaultResult = Template.bind({});
 DefaultResult.args = {
