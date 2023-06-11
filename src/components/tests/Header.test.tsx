@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
 import * as stories from '../stories/Header.stories';
 import { FontProvider, ThemeProvider } from '../../contexts';
+import { MemoryRouter } from 'react-router-dom';
 
 const { LightTheme } = composeStories(stories);
 
@@ -10,7 +11,9 @@ describe('Test <Header />', () => {
     render(
       <FontProvider>
         <ThemeProvider>
-          <LightTheme />
+          <MemoryRouter>
+            <LightTheme />
+          </MemoryRouter>
         </ThemeProvider>
       </FontProvider>
     );
