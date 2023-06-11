@@ -6,6 +6,10 @@ import * as stories from '../stories/Dropdown.stories';
 const { FontList } = composeStories(stories);
 
 describe('Test <Dropdown />', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   test('should render properly', () => {
     render(
       <FontProvider>
