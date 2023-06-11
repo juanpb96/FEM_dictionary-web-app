@@ -1,60 +1,100 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { composeStories } from '@storybook/testing-react';
 import  * as Stories from '../stories/SearchResultView.stories';
-import { VALID_RESPONSE_1_RESULT } from './fixtures/SearchResult.fixture';
-import { ThemeProvider } from '../../contexts';
+import { DataProvider, ThemeProvider } from '../../contexts';
 
-const { DefaultResult } = composeStories(Stories);
+const {
+  DefaultResult,
+  MultipleResults,
+  MultipleAntonymsResult,
+  MultipleSourcesResult
+} = composeStories(Stories);
 
 describe('Test <SearchResultView />', () => {
   test('should render properly when request returns one result', () => {
-    const {
-      word,
-      phonetic,
-      meanings,
-      sourceUrls
-    } = VALID_RESPONSE_1_RESULT[0];
-
-    const { getByRole, getByTestId, getByText } = render(
+    render(
       <ThemeProvider>
-        <DefaultResult />
+        <DataProvider>
+          <DefaultResult />
+        </DataProvider>
       </ThemeProvider>
     );
 
-    expect(getByRole('heading', {level: 2}).textContent).toBe(word);
-    expect(getByTestId('phonetics').textContent).toBe(phonetic);
-    expect(getByTestId('audio-file')).toBeTruthy();
-
-    const nounSection = getByText('noun').parentElement;
-
-    expect(nounSection?.children[0].textContent).toBe(meanings[0].partOfSpeech);
-    expect(nounSection?.children[1].textContent).toBe('Meaning');
-    expect(nounSection?.children[2].children).toHaveLength(meanings[0].definitions.length);
-    expect(nounSection?.children[3].textContent).toBe('Synonyms');
-
-    const verbSection = getByText('verb').parentElement;
-
-    expect(verbSection?.children[0].textContent).toBe(meanings[1].partOfSpeech);
-    expect(verbSection?.children[1].textContent).toBe('Meaning');
-    expect(verbSection?.children[2].children).toHaveLength(meanings[1].definitions.length);
-
-    const sourceSection = getByText('Source').parentElement;
-    
-    expect(sourceSection?.children).toHaveLength(2);
-    expect(sourceSection?.children[0].textContent).toBe('Source');
-    expect(sourceSection?.children[1].textContent).toBe(sourceUrls[0]);
+    expect(screen.getByRole('heading', { name: 'keyboard' })).toBeTruthy();
+    expect(screen.getByText('Keyboarding is the part of this job I hate the most.')).toBeTruthy();
   });
 
-  test.todo('should render response with multiple antonyms');
-  test.todo('should render multiple results properly');
-  test.todo('should render response with multiple source urls');
+  test('should render multiple results properly', () => {
+    render(
+      <ThemeProvider>
+        <DataProvider>
+          <MultipleResults />
+        </DataProvider>
+      </ThemeProvider>
+    );
 
-  test.todo('should not display phonetics when response has no phonetics');
+    expect(screen.getByRole('heading', { name: 'spell' })).toBeTruthy();
+    expect(screen.getAllByText('noun')).toHaveLength(3);
+    expect(screen.getAllByText('verb')).toHaveLength(3);
+  });
 
-  test.todo('should display values properly for "keyboard"');
-  test.todo('should display values properly for "spell"');
-  test.todo('should display values properly for "aaa"');
-  test.todo('should display values properly for "positive"');
+  test('should render multiple antonyms', () => {
+    render(
+      <ThemeProvider>
+        <DataProvider>
+          <MultipleAntonymsResult />
+        </DataProvider>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByRole('heading', { name: 'positive' })).toBeTruthy();
+    
+    const antonymsTitle = screen.getByRole('heading', { name: 'Antonyms' });
+
+    expect(antonymsTitle.nextElementSibling?.childElementCount).toBe(7);
+  });
+
+  test('should render multiple sources', () => {
+    render(
+      <ThemeProvider>
+        <DataProvider>
+          <MultipleSourcesResult />
+        </DataProvider>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByRole('heading', { name: 'aaa' })).toBeTruthy();
+    
+    const sourceTitle = screen.getByRole('heading', { name: 'Source' });
+
+    expect(sourceTitle.nextElementSibling?.childElementCount).toBe(2);
+  });
+  
+  test('should render audio button', () => {
+    render(
+      <ThemeProvider>
+        <DataProvider>
+          <DefaultResult />
+        </DataProvider>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByRole('heading', { name: 'keyboard' })).toBeTruthy();
+    expect(screen.queryByLabelText('Listen to the pronunciation of this word')).toBeTruthy();
+  });
+
+  test('should not render audio button', () => {
+    render(
+      <ThemeProvider>
+        <DataProvider>
+          <MultipleSourcesResult />
+        </DataProvider>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByRole('heading', { name: 'aaa' })).toBeTruthy();
+    expect(screen.queryByLabelText('Listen to the pronunciation of this word')).toBeFalsy();
+  });
 });
 
 export {};
