@@ -8,7 +8,7 @@ export const DataProvider = ({children}: React.PropsWithChildren) => {
 
   return (
     <DataContext.Provider value={{data, setData, error, setError}}>
-      <BrowserRouter>
+      <BrowserRouter basename="/FEM_dictionary-web-app">
         {children}
       </BrowserRouter>
     </DataContext.Provider>
