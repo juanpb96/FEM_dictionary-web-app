@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DataContext } from './DataContext';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 export const DataProvider = ({children}: React.PropsWithChildren) => {
   const [data, setData] = useState({});
@@ -8,9 +8,9 @@ export const DataProvider = ({children}: React.PropsWithChildren) => {
 
   return (
     <DataContext.Provider value={{data, setData, error, setError}}>
-      <BrowserRouter basename="/FEM_dictionary-web-app">
+      <HashRouter>
         {children}
-      </BrowserRouter>
+      </HashRouter>
     </DataContext.Provider>
   )
 }
