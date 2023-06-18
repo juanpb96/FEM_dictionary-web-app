@@ -23,11 +23,12 @@ const HeaderContainer = styled.header(({theme}) => css`
   display: flex;
   width: ${theme.width.mobile};
   max-width: ${theme.width.desktop};
-  margin: 1.5rem auto;
+  margin-inline: auto;
+  padding-block: 1.5rem;
 
   ${mediaQuery('sm', css`
     width: ${theme.width.tablet};
-    margin-block: 3.625rem 3.2188rem;
+    padding-block: 3.625rem 3.2188rem;
   `)}
 `);
 

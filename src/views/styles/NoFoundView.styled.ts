@@ -9,7 +9,7 @@ const Emoji = styled.img`
 
 const NoFoundViewContainer = styled.section`
   ${widthCSS}
-  margin: 8.25rem auto 0;
+  margin: 8.25rem auto;
   text-align: center;
 `;
 
