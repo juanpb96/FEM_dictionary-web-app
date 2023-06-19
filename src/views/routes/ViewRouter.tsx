@@ -22,7 +22,7 @@ export const ViewRouter = () => {
         }
       />
       <Route path={`/${notfound}/*`} element={<NoFoundView />} />
-      <Route path="/*" element={<Navigate to="/" />} />
+      <Route path="/*" element={<Navigate to={`/${definition}/keyboard`} />} />
     </Routes>  
   );
 };

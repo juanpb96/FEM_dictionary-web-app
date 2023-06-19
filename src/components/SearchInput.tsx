@@ -1,11 +1,16 @@
 import { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FontContext, FontContextType } from '../contexts';
 import * as S from './styles/SearchInput.styled';
 import { useSearch } from '../hooks/useSearch';
 
 export const SearchInput = () => {
   const { currentFont } = useContext(FontContext) as FontContextType; 
-  const [inputValue, setInputValue] = useState('');
+  const { pathname } = useLocation();
+  const [, view, term] = pathname.split('/');
+  const isValidPath = ['definition', 'notfound'].includes(view);
+  const initialInput = isValidPath ? term : 'keyboard';  
+  const [inputValue, setInputValue] = useState(initialInput);
   const [hasError, setHasError] = useState(false);
   const [hasFocus, setHasFocus] = useState(false);
   const { searchWordAndRedirect } = useSearch();  
