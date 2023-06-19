@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useRef, useState } from 'react';
 import { DROPDOWN_CLASS } from '../types/types';
+import { FontContext, FontContextType } from '../contexts';
 
 const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' '];
 const navigationKeys = ['ArrowDown', 'ArrowUp'];
 const exitKeys = ['Esc', 'Escape', 'Enter', ' ']
 
+const initialState = {
+  sansSerif: 'font-dropdown-item-sans-serif',
+  serif: 'font-dropdown-item-serif',
+  mono: 'font-dropdown-item-mono'
+}
+
 export const useDropdown = () => {
   const [isListboxOpen, setIsListboxOpen] = useState(false);
   const [selectedKeyboardItem, setSelectedKeyboardItem] = useState({ itemId: '', content: '' });
-  const [activeDescendant, setActiveDescendant] = useState('font-dropdown-item-sans-serif');
+  const { currentFont } = useContext(FontContext) as FontContextType;
+  const [activeDescendant, setActiveDescendant] = useState(initialState[currentFont]);
   const comboboxRef = useRef<HTMLElement>();
   const listboxRef = useRef<HTMLElement>();
   const listItemsRef = useRef<HTMLElement[]>([]);

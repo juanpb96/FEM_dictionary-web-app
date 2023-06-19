@@ -14,14 +14,13 @@ interface SelectedFontValues {
 }
 
 const initialState: SelectedFontValues = {
-  fontId: 'sansSerif',
-  displayName: 'Sans Serif'
+  fontId: 'serif',
+  displayName: 'Serif'
 };
 
 export const Dropdown = () => {
   const { setCurrentFont, fontList } = useContext(FontContext) as FontContextType;
   const [selectedFont, setSelectedFont] = useState<SelectedFontValues>(initialState);
-  // FIXME: Active descendant should be assigned from context
   const comboboxRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
   const {

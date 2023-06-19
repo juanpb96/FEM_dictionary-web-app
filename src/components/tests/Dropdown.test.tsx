@@ -26,13 +26,13 @@ describe('Test <Dropdown />', () => {
     const combobox = screen.getByRole('combobox');
 
     expect(combobox).toBeTruthy();
-    expect(combobox.textContent).toBe('Sans Serif');
+    expect(combobox.textContent).toBe('Serif');
     expect(combobox.nextElementSibling?.getAttribute('role')).toBe('listbox');    
   });
 
-  test('should open the dropdown, change default font to "Serif" and close the dropdown', async() => {
-    const currentValue = 'Sans Serif';
-    const expectedValue = 'Serif';
+  test('should open the dropdown, change default font to "Mono" and close the dropdown', async() => {
+    const currentValue = 'Serif';
+    const expectedValue = 'Mono';
     const setCurrentFont = jest.fn();
 
     render(
@@ -56,7 +56,7 @@ describe('Test <Dropdown />', () => {
     
     expect(listbox).toBeTruthy();
 
-    const listboxItem = screen.getByTestId('font-dropdown-item-serif');
+    const listboxItem = screen.getByTestId('font-dropdown-item-mono');
 
     fireEvent.click(listboxItem);
 
@@ -81,9 +81,9 @@ describe('Test <Dropdown />', () => {
     
     fireEvent.click(combobox);
 
-    expect(combobox.getAttribute('aria-activedescendant')).toBe('font-dropdown-item-sans-serif');
+    expect(combobox.getAttribute('aria-activedescendant')).toBe('font-dropdown-item-serif');
 
-    const listboxItem = screen.getByTestId('font-dropdown-item-sansSerif');
+    const listboxItem = screen.getByTestId('font-dropdown-item-serif');
 
     expect(listboxItem.getAttribute('aria-selected')).toBe('true');
   });

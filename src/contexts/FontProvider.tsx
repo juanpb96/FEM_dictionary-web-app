@@ -19,7 +19,7 @@ export const fontList = [
 ];
 
 export const FontProvider = ({children}: React.PropsWithChildren) => {
-  const [currentFont, setCurrentFont] = useState<KeyOfFont>('sansSerif');
+  const [currentFont, setCurrentFont] = useState<KeyOfFont>('serif');
 
   useEffect(() => {
     const storedValue = localStorage.getItem(LocalStorageKeys.preferredFontId);
