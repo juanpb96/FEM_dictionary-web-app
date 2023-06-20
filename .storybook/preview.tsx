@@ -91,7 +91,7 @@ export const globalTypes = {
   fontFamily: {
     name: 'Font Family',
     description: 'Global font family for text',
-    defaultValue: 'sansSerif',
+    defaultValue: 'serif',
     toolbar: {
       icon: 'paragraph',
       items: [

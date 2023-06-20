@@ -12,17 +12,19 @@ export const ViewRouter = () => {
   const { definition, notfound } = DictionaryRoutes;
 
   return (
-    <Routes>
-      <Route
-        path={`/${definition}/*`}
-        element={
-          <SearchRouter>
-            <SearchResultView />
-          </SearchRouter>
-        }
-      />
-      <Route path={`/${notfound}/*`} element={<NoFoundView />} />
-      <Route path="/*" element={<Navigate to={`/${definition}/keyboard`} />} />
-    </Routes>  
+    <main>
+      <Routes>
+        <Route
+          path={`/${definition}/*`}
+          element={
+            <SearchRouter>
+              <SearchResultView />
+            </SearchRouter>
+          }
+        />
+        <Route path={`/${notfound}/*`} element={<NoFoundView />} />
+        <Route path="/*" element={<Navigate to={`/${definition}/keyboard`} />} />
+      </Routes>  
+    </main>
   );
 };
