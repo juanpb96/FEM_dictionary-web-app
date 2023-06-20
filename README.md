@@ -43,8 +43,9 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Click here](https://your-solution-url.com)
-- Live Site URL: [See live site here](https://your-live-site-url.com)
+- Solution URL: [Click here](https://www.frontendmentor.io/solutions/dictionary-web-app-h-URFeSKWy)
+- Live Site URL: [See live site here](https://juanbonilla.me/FEM_dictionary-web-app)
+- Storybook: [See storybook here](https://6490d8c43b79288498013e1b-xujjitvoum.chromatic.com/?path=/story/views-searchresultview--multiple-antonyms-result)
 
 ## My process
 
@@ -137,6 +138,7 @@ Finally, this is the first time I've used GitHub Actions to deploy my project. I
 - [How to use emojis in React](https://medium.com/@seanmcp/%EF%B8%8F-how-to-use-emojis-in-react-d23bbf608bf7) - I found this article very interesting. Useful when you want to define a particular meaning to an emoji.
 - [Emojis - Readability guidelines](https://readabilityguidelines.co.uk/images/emojis/) - I didn't know that emojis are actually accessible and this article explains in detail how to use them focusing on best practices. I decided to test this with the screen reader and I realized emojis have an alternative text by default. This way, you can insert them directly in your code instead of adding an additional label.
 - [Deploying a Static Site to GitHub Pages with Vite](https://vitejs.dev/guide/static-deploy.html#github-pages) - I was struggling when deploying my project to GitHub Pages and this documentation was just enough to solve my problem. It shows how to deploy your project using GitHub Actions! 
+- [Publish Storybook with Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) - This site gives you the possibility to quickly deploy a storybook project created in one of your GitHub repositories. It has an easy-to-follow tutorial to get started. I have done my deployment on this site and will probably continue using it for my future projects.
 
 ## Author
 
