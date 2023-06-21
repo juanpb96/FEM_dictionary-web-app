@@ -107,7 +107,7 @@ export const Dropdown = () => {
       </label>
       <S.DropdownContainer>
         <S.ComboBox
-          aria-activedescendant={isListboxOpen ? activeDescendant : ''}
+          aria-activedescendant={activeDescendant}
           aria-controls="font-listbox"
           aria-expanded={isListboxOpen}
           aria-labelledby="font-dropdown-label"

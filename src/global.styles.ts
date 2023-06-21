@@ -137,4 +137,14 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     border: 0;
   }
+
+  blockquote {
+    &::before {
+      content: open-quote;
+    }
+  
+    &::after {
+      content: close-quote;
+    }  
+  }
 `;

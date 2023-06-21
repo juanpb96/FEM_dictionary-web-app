@@ -2,15 +2,12 @@ import { Dropdown } from './Dropdown';
 import { SearchInput } from './SearchInput';
 import * as S from './styles/Header.styled';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { VisuallyHidden } from './VisuallyHidden';
 
 export const Header = () => {
   return (
     <>
       <S.HeaderContainer>
-        <VisuallyHidden>
-          <h1>Dictionary web app</h1>
-        </VisuallyHidden>
+        <h1 className="sr-only">Dictionary web app</h1>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="34"

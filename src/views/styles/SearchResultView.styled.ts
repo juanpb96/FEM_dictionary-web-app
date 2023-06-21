@@ -10,6 +10,10 @@ interface FontProps {
 const ViewContainer = styled.article`
   ${widthCSS}
   margin: 1.5rem auto;
+
+  ${mediaQuery('sm', css`
+    margin-top: 2.625rem;
+  `)}
 `;
 
 const ViewHeader = styled.header`
@@ -30,7 +34,7 @@ const Phonetic = styled.p(({theme}) => css`
   `)}
 `);
 
-const PlayButton = styled.button(({theme}) => css`
+const PlayButton = styled.button`
   cursor: pointer;
   grid-area: audio;
   justify-self: end;
@@ -43,11 +47,19 @@ const PlayButton = styled.button(({theme}) => css`
   & svg {
     height: inherit;
   }
-`);
 
-const POSSection = styled.section(({theme}) => css`
+  ${mediaQuery('sm', css`
+    width: 4.6875rem;
+  `)}
+`;
+
+const POSSection = styled.section`
   margin-top: 2rem;
-`);
+
+  ${mediaQuery('sm', css`
+    margin-top: 2.5rem;
+  `)}
+`;
 
 const POSTitleContainer = styled.div(({theme}) => css`
   display: flex;
@@ -55,6 +67,10 @@ const POSTitleContainer = styled.div(({theme}) => css`
   gap: 1rem;
   margin-bottom: 2rem;
   font-style: italic;
+
+  ${mediaQuery('sm', css`
+    margin-bottom: 2.375rem;
+  `)}
 
   &::after {
     content: '';
@@ -71,6 +87,11 @@ const DefinitionsList = styled.ul<FontProps>(({theme, $currentFont}) => css`
   gap: 0.875rem;
   margin-top: 1.125rem;
   padding-left: 1rem;
+
+  ${mediaQuery('sm', css`
+    margin-top: 1.5rem;
+    padding-left: 2rem;
+  `)}
 
   & li {
     padding-left: 0.25rem;
@@ -97,6 +118,10 @@ const WordListContainer = styled.div`
   display: flex;
   gap: 1.5rem;
   margin-top: 1.5rem;
+
+  ${mediaQuery('sm', css`
+    margin-top: 2.5rem;
+  `)}
 `;
 
 const WordList = styled.ul`
@@ -118,6 +143,7 @@ const SourceSection = styled.section(({theme}) => css`
   ${mediaQuery('sm', css`
     display: flex;
     gap: 25px;
+    margin-top: 2.5rem;
   `)}
 `);
 
