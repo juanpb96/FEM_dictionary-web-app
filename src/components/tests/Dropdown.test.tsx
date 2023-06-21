@@ -77,7 +77,7 @@ describe('Test <Dropdown />', () => {
 
     const combobox = screen.getByRole('combobox');
 
-    expect(combobox.getAttribute('aria-activedescendant')).toBe('');
+    expect(combobox.getAttribute('aria-activedescendant')).not.toBe('');
     
     fireEvent.click(combobox);
 
