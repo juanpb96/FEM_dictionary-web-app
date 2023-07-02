@@ -46,12 +46,25 @@ export const Dropdown = () => {
       });
     }
   }, []);
-  
 
   useEffect(() => {
     if (comboboxRef && comboboxRef.current && listboxRef && listboxRef.current) {
       setDropdownComponent(comboboxRef.current!, listboxRef.current);
       setAnimatedComponent(listboxRef.current!);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+      }      
+    };
+  
+    comboboxRef.current?.addEventListener('keydown', onKeyDown as unknown as EventListener);
+
+    return () => {
+      comboboxRef.current?.removeEventListener('keydown', onKeyDown as unknown as EventListener);
     }
   }, []);
 
